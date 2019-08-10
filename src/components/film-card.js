@@ -1,4 +1,4 @@
-export const filmCard = (title = '', rating = 0, year = '', duration = '', genre = '', image ='', description = `нет описания`, comments = `ваш комментарий будет первым`) =>
+export const filmCard = (title = ``, rating = 0, year = ``, duration = ``, genre = ``, image = ``, description = `нет описания`, comments = `ваш комментарий будет первым`) =>
   `<article class="film-card">
           <h3 class="film-card__title">${title}</h3>
           <p class="film-card__rating">${rating}</p>

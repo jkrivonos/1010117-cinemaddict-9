@@ -4,4 +4,4 @@ export const mostCommentedFilmsWrapper = () =>
 
       <div class="films-list__container mostcommented">
   </div>
-</section>`
+</section>`;

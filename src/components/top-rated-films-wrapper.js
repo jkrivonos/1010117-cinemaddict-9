@@ -4,4 +4,4 @@ export const topRatedFilmsWrapper = () =>
 
       <div class="films-list__container">
       </div>
-    </section>`
+    </section>`;

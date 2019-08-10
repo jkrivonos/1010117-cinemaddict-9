@@ -5,4 +5,4 @@ export const filmsWrapper = () =>
       <div class="films-list__container">
       </div>
      </section>
-  </section>`
+  </section>`;
