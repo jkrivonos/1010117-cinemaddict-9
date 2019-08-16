@@ -166,6 +166,6 @@ const filmDetailsCard = () => `<section class="film-details">
       </section>
     </div>
   </form>
-</section`
+</section`;
 
 export {filmDetailsCard};

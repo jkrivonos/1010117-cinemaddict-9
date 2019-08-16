@@ -7,7 +7,7 @@ const getDataFilm = () => ({
     `The Great Flamarion`,
     `Santa Claus Conquers the Martians`
   ][Math.floor(Math.random() * 5)],
-  rating: getRandomArbitrary(1,9)+0.2,
+  rating: getRandomArbitrary(1, 9) + 0.2,
   year: getRandomArbitrary(1900, 2019),
   duration: getRandomArbitrary(25, 180),
   genre: [`drama`,

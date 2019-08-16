@@ -1,4 +1,4 @@
-const WATCHED_FILMS = 100;
+const ALLFILMS = 15;
 import {searchPanel} from '../src/components/search-panel.js';
 import {userProfile} from '../src/components/user-profile.js';
 import {menuPanel} from '../src/components/menu-panel.js';
@@ -8,6 +8,7 @@ import {createFilmCard} from '../src/components/film-card.js';
 import {showMoreButton} from '../src/components/show-more-button.js';
 import {topRatedFilmsWrapper} from '../src/components/top-rated-films-wrapper.js';
 import {mostCommentedFilmsWrapper} from '../src/components/most-commented-films-wrapper.js';
+// import {filmDetailsCard} from '../src/components/film-details.js';
 import {getDataFilm} from '../src/data.js';
 import {getStatistic} from '../src/components/footer-statistics';
 
@@ -18,11 +19,11 @@ const render = (container, template, place) => {
 const menuNode = document.querySelector(`.main`);
 
 const allFilms = (count) => new Array(count).fill(``).map(getDataFilm);
-const films = allFilms(20);
+const films = allFilms(ALLFILMS);
 
 // TODO:переписать все одной функцией getFilteredFilms
-const getWatchedFilms = (films) => {
-  const watchedFilms = films.reduce((finalList, curFilm) => {
+const getWatchedFilms = (el) => {
+  const watchedFilms = el.reduce((finalList, curFilm) => {
     if (curFilm.isWatchedList) {
       finalList.push(curFilm);
     }
@@ -34,8 +35,8 @@ const getWatchedFilms = (films) => {
   return watchedFilms.length;
 };
 
-const getHistoriedFilms = (films) => {
-  const historiedFilms = films.reduce((finalList, curFilm) => {
+const getHistoriedFilms = (el) => {
+  const historiedFilms = el.reduce((finalList, curFilm) => {
     if (curFilm.isHistory) {
       finalList.push(curFilm);
     }
@@ -44,8 +45,8 @@ const getHistoriedFilms = (films) => {
   return historiedFilms.length;
 };
 
-const getFavoritesFils = (films) => {
-  const favoritesFilms = films.reduce((finalList, curFilm) => {
+const getFavoritesFils = (el) => {
+  const favoritesFilms = el.reduce((finalList, curFilm) => {
     if (curFilm.isFavorite) {
       finalList.push(curFilm);
     }
@@ -57,25 +58,23 @@ render(menuNode, menuPanel(getWatchedFilms(films), getHistoriedFilms(films), get
 render(menuNode, sortingPanel(), `beforeend`);
 render(menuNode, filmsWrapper(), `beforeend`);
 
-const filmNode = document.querySelector('.films');
+const filmNode = document.querySelector(`.films`);
 const filmsWrapperNode = document.querySelector(`.films-list__container`);
 
 createFilmCard(getDataFilm());
 render(filmsWrapperNode, showMoreButton(), `afterend`);
 
-films.forEach((el) => render(filmsWrapperNode, createFilmCard(el), `beforeend`));
-
-const filmCardWraper = document.querySelector(`.film-card`);
-const showFullInformation = () => {
-  console.log(`showFullInformation`);
-};
-filmCardWraper.addEventListener(`click`, showFullInformation);
-const detailsNode = document.querySelector(`.film-details`);
+// const filmCardWraper = document.querySelector(`.film-card`);
+// const showFullInformation = () => {
+//   render(filmCardWraper, filmDetailsCard(), `beforeend`);
+// };
+// filmCardWraper.addEventListener(`click`, showFullInformation);
+// const detailsNode = document.querySelector(`.film-details`);
 
 render(filmNode, topRatedFilmsWrapper(), `beforeend`);
 
 const topRatedFilmsWrapperNode = document.querySelector(`.toprated`);
-const topRatedFilms = films.sort((a,b) => b.rating - a.rating);
+const topRatedFilms = films.sort((a, b) => b.rating - a.rating);
 const topRatedFilmsForRender = [];
 topRatedFilmsForRender.push(topRatedFilms[0], topRatedFilms[1]);
 topRatedFilmsForRender.forEach((el) => render(topRatedFilmsWrapperNode, createFilmCard(el), `beforeend`));
@@ -83,10 +82,28 @@ topRatedFilmsForRender.forEach((el) => render(topRatedFilmsWrapperNode, createFi
 render(filmNode, mostCommentedFilmsWrapper(), `beforeend`);
 
 const commentedFilmsNode = document.querySelector(`.commented`);
-const commentedFilms = films.sort((a,b) => b.comments - a.comments);
+const commentedFilms = films.sort((a, b) => b.comments - a.comments);
 const commentedFilmsForRender = [];
 commentedFilmsForRender.push(commentedFilms[0], commentedFilms[1]);
 commentedFilmsForRender.forEach((el) => render(commentedFilmsNode, createFilmCard(el), `beforeend`));
 
 const footerStats = document.querySelector(`.footer`);
 render(footerStats, getStatistic(films.length), `beforeend`);
+const FIRST_COUNT_FILMS = 5;
+const LIMIT = 2;
+let start = 0;
+
+const showMoreFilmsHandler = () => {
+  for (let i = start; i < start + LIMIT; i++) {
+    render(filmsWrapperNode, createFilmCard(films[i]), `beforeend`);
+  }
+  start += LIMIT;
+};
+
+for (let i = start; i < FIRST_COUNT_FILMS; i++) {
+  render(filmsWrapperNode, createFilmCard(films[i]), `beforeend`);
+}
+start = FIRST_COUNT_FILMS;
+
+const showMoreBtn = document.querySelector(`.films-list__show-more`);
+showMoreBtn.addEventListener(`click`, showMoreFilmsHandler);
