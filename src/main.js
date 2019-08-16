@@ -1,3 +1,4 @@
+const WATCHED_FILMS = 100;
 import {searchPanel} from '../src/components/search-panel.js';
 import {userProfile} from '../src/components/user-profile.js';
 import {menuPanel} from '../src/components/menu-panel.js';
@@ -8,17 +9,18 @@ import {showMoreButton} from '../src/components/show-more-button.js';
 import {topRatedFilmsWrapper} from '../src/components/top-rated-films-wrapper.js';
 import {mostCommentedFilmsWrapper} from '../src/components/most-commented-films-wrapper.js';
 import {getDataFilm} from '../src/data.js';
+import {filmDetailsWrapper} from '../src/components/film-deatils-wrapper.js';
+import {filmDetailsCard} from '../src/components/film-details.js';
 
 const render = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
 };
 
-const searchNode = document.querySelector(`.header`);
-render(searchNode, searchPanel(), `beforeend`);
-render(searchNode, userProfile(), `beforeend`);
+const headerNode = document.querySelector(`.header`);
+render(headerNode, searchPanel(), `beforeend`);
+render(headerNode, userProfile(WATCHED_FILMS), `beforeend`);
 
 const menuNode = document.querySelector(`.main`);
-render(menuNode, menuPanel(), `beforeend`);
 render(menuNode, sortingPanel(), `beforeend`);
 render(menuNode, filmsWrapper(), `beforeend`);
 
@@ -43,3 +45,47 @@ render(mostCommentedFilmsWrapperNode, createFilmCard(`The Dance of Life`, `8.3`,
 const allFilms = (count) => new Array(count).fill(``).map(getDataFilm);
 const films = allFilms(10);
 films.forEach((el) => render(filmsWrapperNode, createFilmCard(el), `beforeend`));
+
+// TODO:переписать все одной функцией getFilteredFilms
+const getWatchedFilms = (films) => {
+  const watchedFilms = films.reduce((finalList, curFilm) => {
+    if (curFilm.isWatchedList) {
+      finalList.push(curFilm);
+    }
+    return finalList;
+  }, []);
+  return watchedFilms.length;
+};
+
+const getHistoriedFilms = (films) => {
+  const historiedFilms = films.reduce((finalList, curFilm) => {
+    if (curFilm.isHistory) {
+      finalList.push(curFilm);
+    }
+    return finalList;
+  }, []);
+  return historiedFilms.length;
+};
+
+const getFavoritesFils = (films) => {
+  const favoritesFilms = films.reduce((finalList, curFilm) => {
+    if (curFilm.isFavorite) {
+      finalList.push(curFilm);
+    }
+    return finalList;
+  }, []);
+  return favoritesFilms.length;
+};
+
+render(menuNode, menuPanel(getWatchedFilms(films), getHistoriedFilms(films), getFavoritesFils(films)), `beforeend`);
+
+const filmCardWraper = document.querySelector(`.film-card`);
+const showFullInformation = () => {
+  console.log(`showFullInformation`);
+};
+filmCardWraper.addEventListener(`click`, showFullInformation);
+render(headerNode, filmDetailsWrapper, `beforeend`);
+const detailsNode = document.querySelector(`.film-details`);
+console.log(`detailsNode`, detailsNode);
+render(headerNode, filmDetailsCard(), `beforeend`);
+

@@ -24,11 +24,16 @@ const getDataFilm = () => ({
     `images/posters/the-dance-of-life.jpg`
   ][Math.floor(Math.random() * 5)],
   description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget.`,
-  comments: [`good job`,
+  comments: [
+    `good job`,
     `so boring..`,
     `sweet movie`,
     `show must go on`,
     `ahahah`
   ][Math.floor(Math.random() * 5)],
+  isWatchedList: Boolean(Math.round(Math.random())),
+  isHistory: Boolean(Math.round(Math.random())),
+  isFavorite: Boolean(Math.round(Math.random()))
 });
+
 export {getDataFilm};
