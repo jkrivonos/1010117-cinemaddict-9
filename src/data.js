@@ -1,12 +1,22 @@
 const getRandomArbitrary = (min, max) => Math.round(Math.random() * (max - min) + min);
 
-const getDataFilm = () => ({
+export const getDataFilm = () => ({
   title: [`The Dance of Life`,
     `Sagebrush Trail`,
     `The Man with the Golden Arm`,
     `The Great Flamarion`,
-    `Santa Claus Conquers the Martians`
-  ][Math.floor(Math.random() * 5)],
+    `Santa Claus Conquers the Martians`,
+    `Saint Luiziana`,
+    `Wild West`,
+    `Cool Russia`,
+    `West Coast`,
+    `Back to the Future`,
+    `Robocop`,
+    `Ghostbusters`,
+    `The Smurfs`,
+    `Red Planet`,
+    `Army of Darkness`
+  ][Math.floor(Math.random() * 15)],
   rating: getRandomArbitrary(1, 9) + 0.2,
   year: getRandomArbitrary(1900, 2019),
   duration: getRandomArbitrary(25, 180),
@@ -29,5 +39,3 @@ const getDataFilm = () => ({
   isHistory: Boolean(Math.round(Math.random())),
   isFavorite: Boolean(Math.round(Math.random()))
 });
-
-export {getDataFilm};
