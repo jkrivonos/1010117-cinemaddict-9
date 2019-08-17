@@ -1,4 +1,3 @@
-const ALLFILMS = 15;
 import {searchPanel} from '../src/components/search-panel.js';
 import {userProfile} from '../src/components/user-profile.js';
 import {menuPanel} from '../src/components/menu-panel.js';
@@ -8,9 +7,11 @@ import {createFilmCard} from '../src/components/film-card.js';
 import {showMoreButton} from '../src/components/show-more-button.js';
 import {topRatedFilmsWrapper} from '../src/components/top-rated-films-wrapper.js';
 import {mostCommentedFilmsWrapper} from '../src/components/most-commented-films-wrapper.js';
-// import {filmDetailsCard} from '../src/components/film-details.js';
 import {getDataFilm} from '../src/data.js';
 import {getStatistic} from '../src/components/footer-statistics';
+import {filmDetailsCard} from '../src/components/film-details.js';
+
+const ALLFILMS = 15;
 
 const render = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
@@ -64,13 +65,6 @@ const filmsWrapperNode = document.querySelector(`.films-list__container`);
 createFilmCard(getDataFilm());
 render(filmsWrapperNode, showMoreButton(), `afterend`);
 
-// const filmCardWraper = document.querySelector(`.film-card`);
-// const showFullInformation = () => {
-//   render(filmCardWraper, filmDetailsCard(), `beforeend`);
-// };
-// filmCardWraper.addEventListener(`click`, showFullInformation);
-// const detailsNode = document.querySelector(`.film-details`);
-
 render(filmNode, topRatedFilmsWrapper(), `beforeend`);
 
 const topRatedFilmsWrapperNode = document.querySelector(`.toprated`);
@@ -94,10 +88,16 @@ const LIMIT = 2;
 let start = 0;
 
 const showMoreFilmsHandler = () => {
-  for (let i = start; i < start + LIMIT; i++) {
-    render(filmsWrapperNode, createFilmCard(films[i]), `beforeend`);
+  if (start + LIMIT <= films.length) {
+    for (let i = start; i < start + LIMIT; i++) {
+      render(filmsWrapperNode, createFilmCard(films[i]), `beforeend`);
+    }
+    start += LIMIT;
   }
-  start += LIMIT;
+  else {
+    const button = document.querySelector(`.films-list__show-more`);
+    button.classList.add("disabledButton");
+  }
 };
 
 for (let i = start; i < FIRST_COUNT_FILMS; i++) {
@@ -107,3 +107,15 @@ start = FIRST_COUNT_FILMS;
 
 const showMoreBtn = document.querySelector(`.films-list__show-more`);
 showMoreBtn.addEventListener(`click`, showMoreFilmsHandler);
+
+
+
+const filmCardWraper = document.querySelectorAll(`.film-card`);
+console.log(`filmCardWraper`, filmCardWraper );
+const showFullInformation = () => {
+  const detailsNode = document.querySelector(`.film-details`);
+  console.log(`detailsNode`,detailsNode);
+  // render(filmCardWraper, filmDetailsCard(), `beforeend`);
+};
+// filmCardWraper.addEventListener(`click`, showFullInformation);
+filmCardWraper.forEach(el => el.addEventListener(`click`, showFullInformation));
