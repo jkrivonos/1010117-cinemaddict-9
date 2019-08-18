@@ -1,5 +1,5 @@
 export const createFilmCard = (filmParams) =>
-  `<article class="film-card" id="film_card">
+  `<article class="film-card">
           <h3 class="film-card__title">${filmParams.title}</h3>
           <p class="film-card__rating">${filmParams.rating}</p>
           <p class="film-card__info">

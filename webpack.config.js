@@ -1,4 +1,4 @@
-/*global_dirname*/
+/* global__dirname */
 const path = require(`path`);
 module.exports = {
   mode: `development`, // Режим сборки

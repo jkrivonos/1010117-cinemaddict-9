@@ -1,13 +1,9 @@
-import {searchPanel} from '../src/components/search-panel.js';
-import {userProfile} from '../src/components/user-profile.js';
-import {menuPanel} from '../src/components/menu-panel.js';
-import {sortingPanel} from '../src/components/sorting-panel.js';
-import {filmsWrapper} from '../src/components/film-cards-wrapper.js';
+import {getHeaderPanel} from '../src/components/header-panel.js';
+import {getContent} from '../src/components/main-content.js';
 import {createFilmCard} from '../src/components/film-card.js';
 import {getDataFilm} from '../src/data.js';
-import {getStatistic} from '../src/components/footer-statistics';
+import {getFooterPanel} from '../src/components/footer-statistics';
 import {filmDetailsWrapper} from '../src/components/film-details-wrapper.js';
-import {filmDetailsCard} from '../src/components/film-details.js';
 
 const ALLFILMS = 15;
 const LIMIT = 5;
@@ -21,20 +17,21 @@ const getFilteredFilms = (filmsArray, keyName) => {
 };
 
 const showFullInformation = () => {
-  render(menuNode, filmDetailsWrapper(), `beforeend`);
-  const detailsNode = document.querySelector(`#film_details`);
-  render(detailsNode, filmDetailsCard(), `beforeend`);
+  render(mainNode, filmDetailsWrapper(), `beforeend`);
 };
 
 let start = 0;
-const showFilmCards = () => {
+const getFilmCards = () => {
   let finish = (start + LIMIT < films.length) ? start + LIMIT : films.length;
   let filmsContainer = ``;
   for (let i = start; i < finish; i++) {
     filmsContainer += createFilmCard(films[i]);
   }
-  render(filmsWrapperNode, filmsContainer, `beforeend`);
-  const filmCards = document.querySelectorAll(`#film_card`);
+  return filmsContainer;
+};
+const setShowFullInformationHandler = () => {
+  const filmCards = document.querySelectorAll(`.film-card`);
+  let finish = (start + LIMIT < films.length) ? start + LIMIT : films.length;
   for (let i = start; i < start + LIMIT; i++) {
     filmCards[i].addEventListener(`click`, showFullInformation);
   }
@@ -45,33 +42,36 @@ const showFilmCards = () => {
   }
 };
 
+const showFilmCards = () => {
+  render(filmsWrapperNode, getFilmCards(), `beforeend`);
+  setShowFullInformationHandler();
+};
+
 const allFilms = (count) => new Array(count).fill(``).map(getDataFilm);
 const films = allFilms(ALLFILMS);
 
-const menuNode = document.querySelector(`#main`);
-render(menuNode,
-    menuPanel(getFilteredFilms(films, `isWatchedList`), getFilteredFilms(films, `isHistory`), getFilteredFilms(films, `isFavorite`))
-      + sortingPanel()
-      + filmsWrapper(),
-    `beforeend`);
-
 const headerNode = document.querySelector(`#header`);
-render(headerNode, searchPanel(), `beforeend`);
-render(headerNode, userProfile(getFilteredFilms(films, `isWatchedList`)), `beforeend`);
+render(headerNode, getHeaderPanel(getFilteredFilms(films, `isWatchedList`)), `beforeend`);
+
+const mainNode = document.querySelector(`#main`);
+const sortedTopRatedFilms = films.sort((a, b) => b.rating - a.rating);
+const sortedCommentedFilms = films.sort((a, b) => b.comments - a.comments);
+
+const contentParams = {
+  allFilms: getFilmCards(),
+  watchedFilms: getFilteredFilms(films, `isWatchedList`),
+  historiedFilms: getFilteredFilms(films, `isHistory`),
+  favoriteFilms: getFilteredFilms(films, `isFavorite`),
+  topRatedFilms: createFilmCard(sortedTopRatedFilms[0]) + createFilmCard(sortedTopRatedFilms[1]),
+  topCommentedFilms: createFilmCard(sortedCommentedFilms[0]) + createFilmCard(sortedCommentedFilms[1])
+};
+render(mainNode, getContent(contentParams), `beforeend`);
+setShowFullInformationHandler();
 
 const filmsWrapperNode = document.querySelector(`#films_container`);
-showFilmCards();
 const showMoreBtn = document.querySelector(`#showMore`);
 
 showMoreBtn.addEventListener(`click`, showFilmCards);
-const topRatedFilmsWrapperNode = document.querySelector(`#toprated`);
-const sortedTopRatedFilms = films.sort((a, b) => b.rating - a.rating);
-
-render(topRatedFilmsWrapperNode, createFilmCard(sortedTopRatedFilms[0]) + createFilmCard(sortedTopRatedFilms[1]), `beforeend`);
-const commentedFilmsNode = document.querySelector(`#commented`);
-const sortedCommentedFilms = films.sort((a, b) => b.comments - a.comments);
-
-render(commentedFilmsNode, createFilmCard(sortedCommentedFilms[0]) + createFilmCard(sortedCommentedFilms[1]), `beforeend`);
 const footerStats = document.querySelector(`#footer`);
 
-render(footerStats, getStatistic(films.length), `beforeend`);
+render(footerStats, getFooterPanel(films.length), `beforeend`);

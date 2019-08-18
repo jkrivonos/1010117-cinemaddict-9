@@ -6,3 +6,4 @@ export const menuPanel = (watchlistFilms, historyFilms, favoritesFilms) =>
     <a href="#favorites" class="main-navigation__item">Favorites <span class="main-navigation__item-count">${favoritesFilms}</span></a>
     <a href="#stats" class="main-navigation__item main-navigation__item--additional">Stats</a>
   </nav>`;
+
