@@ -7,9 +7,4 @@ const menuPanel = (watchlistFilms, historyFilms, favoritesFilms) =>
     <a href="#stats" class="main-navigation__item main-navigation__item--additional">Stats</a>
   </nav>`;
 
-
-const getFilteredFilms = (filmsArray, keyName) => {
-  return filmsArray.filter((el) => el[keyName]).length;
-};
-
-export {menuPanel, getFilteredFilms};
+export {menuPanel};
