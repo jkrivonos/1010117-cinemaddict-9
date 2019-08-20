@@ -1,4 +1,4 @@
-export const createFilmCard = (filmParams) =>
+const createFilmCard = (filmParams) =>
   `<article class="film-card">
           <h3 class="film-card__title">${filmParams.title}</h3>
           <p class="film-card__rating">${filmParams.rating}</p>
@@ -17,15 +17,15 @@ export const createFilmCard = (filmParams) =>
           </form>
   </article>`;
 
-// TODO:переписать на геттеры
-// export const createFilmCard = (
-//   {
-//     get title() => {title ? title : `нет названия`},
-//     get rating() => {rating ? rating : 0},
-//     get year() => {year ? year : ``},
-//     get duration() => {duration ? duration : ``},
-//     get genre() => {genre ? genre : ``},
-//     get image() => {image ? image : 0},
-//     get description() => {description ? description : `нет описания`},
-//     get comments() => {comments ? comments : 0}
-//   }) =>
+const getFilmCards = (start, LIMIT, films) => {
+  console.log(`filmCard`, films);
+  let finish = (start + LIMIT < films.length) ? start + LIMIT : films.length;
+  let filmsContainer = ``;
+  for (let i = start; i < finish; i++) {
+    filmsContainer += createFilmCard(films[i]);
+  }
+  return filmsContainer;
+};
+
+
+export {createFilmCard, getFilmCards};

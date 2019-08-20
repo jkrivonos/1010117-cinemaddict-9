@@ -1,4 +1,4 @@
-export const menuPanel = (watchlistFilms, historyFilms, favoritesFilms) =>
+const menuPanel = (watchlistFilms, historyFilms, favoritesFilms) =>
   `<nav class="main-navigation">
     <a href="#all" class="main-navigation__item main-navigation__item--active">All movies</a>
     <a href="#watchlist" class="main-navigation__item">Watchlist <span class="main-navigation__item-count">${watchlistFilms}</span></a>
@@ -7,3 +7,9 @@ export const menuPanel = (watchlistFilms, historyFilms, favoritesFilms) =>
     <a href="#stats" class="main-navigation__item main-navigation__item--additional">Stats</a>
   </nav>`;
 
+
+const getFilteredFilms = (filmsArray, keyName) => {
+  return filmsArray.filter((el) => el[keyName]).length;
+};
+
+export {menuPanel, getFilteredFilms};
