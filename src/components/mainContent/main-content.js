@@ -12,5 +12,5 @@ export const getContent = (films) => {
   const sortedCommentedFilms = films.sort((a, b) => b.comments - a.comments);
   return `${menuPanel(getFilteredFilms(films, `isWatchedList`), getFilteredFilms(films, `isHistory`), getFilteredFilms(films, `isFavorite`))}
   ${sortingPanel()}
-  ${filmsWrapper(getFilmCardsFrom(films, 0, FILMS_SIZE_FOR_RENDER_AT_LINE), createFilmCard(sortedTopRatedFilms[0]) + createFilmCard(sortedTopRatedFilms[1]),  createFilmCard(sortedCommentedFilms[0]) + createFilmCard(sortedCommentedFilms[1]))}`
+  ${filmsWrapper(getFilmCardsFrom(films, 0, FILMS_SIZE_FOR_RENDER_AT_LINE), createFilmCard(sortedTopRatedFilms[0]) + createFilmCard(sortedTopRatedFilms[1]), createFilmCard(sortedCommentedFilms[0]) + createFilmCard(sortedCommentedFilms[1]))}`;
 };

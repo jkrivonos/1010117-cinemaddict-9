@@ -12,7 +12,7 @@ const getFilteredFilms = (films, keyName) => {
 };
 
 const render = (container, template) => {
-  container.insertAdjacentHTML(`beforeend`,  template);
+  container.insertAdjacentHTML(`beforeend`, template);
 };
 
 const showFullInformation = () => {

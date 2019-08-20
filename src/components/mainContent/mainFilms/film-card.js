@@ -20,7 +20,7 @@ const createFilmCard = (filmParams) =>
   </article>`;
 
 const getFilmCardsFrom = (films, from, amount) => {
-  let to = (from+amount < films.length) ? from+amount : films.length;
+  let to = (from + amount < films.length) ? from + amount : films.length;
   let filmsContainer = ``;
   for (let i = from; i < to; i++) {
     filmsContainer += createFilmCard(films[i]);
