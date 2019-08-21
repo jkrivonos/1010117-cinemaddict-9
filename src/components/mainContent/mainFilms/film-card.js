@@ -29,16 +29,3 @@ const getFilmCardsFrom = (films, from, amount) => {
 };
 
 export {createFilmCard, getFilmCardsFrom, FILMS_SIZE_FOR_RENDER_AT_LINE};
-
-
-class FilmCard{
-  constructor({title, rating, year, duration, genre, description, comments}){
-    this._title = title,
-    this._rating = rating,
-    this._year = year,
-    this._duration = duration,
-    this._genre = genre,
-    this._description = description,
-    this._comments = comments
-  }
-}

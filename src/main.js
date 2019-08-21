@@ -4,19 +4,23 @@ import {getFilmCardsFrom, FILMS_SIZE_FOR_RENDER_AT_LINE} from './components/main
 import {getDataFilm} from '../src/data.js';
 import {getFooterPanel} from '../src/components/footer-statistics';
 import {filmDetailsWrapper} from './components/filmDetails/film-details-wrapper.js';
+import {FilmCard} from './components/film-card.js';
+import {FilmCardDetails} from './components/film-card-details.js';
 
 const ALL_FILMS_SIZE = 15;
+const filmMocks = new Array(ALL_FILMS_SIZE).fill(``).map(getDataFilm);
 
 const getFilteredFilms = (films, keyName) => {
   return films.filter((el) => el[keyName]).length;
 };
 
-const render = (container, template) => {
-  container.insertAdjacentHTML(`beforeend`, template);
+const render = (container, template, place = `beforeend`) => {
+  container.insertAdjacentHTML(place, template);
 };
 
 const showFullInformation = () => {
-  render(mainNode, filmDetailsWrapper());
+  console.log('9999');
+  // render(mainNode, filmDetailsWrapper());
 };
 
 let from = 0;
@@ -65,3 +69,15 @@ createMainContent(films);
 const filmsWrapperNode = document.querySelector(`#films_container`);
 setHandlerToShowMoreButton();
 createFooter(films.length);
+
+const renderFilm = (filmMock) => {
+  const filmCard = new FilmCard(filmMock);
+  // const filmDetails = new FilmCardDetails(filmMock);
+  filmCard.getElement().querySelector(`.film-card`).addEventListener(`click`, showFullInformation);
+// TODO: вот здесь не дает обратиться querySelectir-ом...пишет filmCard.getElement(...).querySelector(...) is null, хотя в консоли выводит <article class="film-card">
+
+};
+// const getFilmCard = filmCard.getElement();
+// filmCard.getFilmCard.querySelector(`.film-card`).addEventListener(`click`, showFullInformation);
+films.forEach((film) => renderFilm(film));
+
