@@ -1,10 +1,4 @@
-// import createElement from './../utils.js';
-const createElement = (template) => {
-  const newElement = document.createElement(`div`);
-  newElement.innerHTML = template;
-  // console.log(`newElement.firstChild`, newElement.firstChild);
-  return newElement.firstChild;
-};
+import createElement from './../utils.js';
 
 export class FilmCardDetails {
   constructor({image, title, rating, director, writers, actors, release_date, runtime, country, genres, description}) {

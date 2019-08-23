@@ -1,8 +1,7 @@
 export const createElement = (template) => {
   const newElement = document.createElement(`div`);
   newElement.innerHTML = template;
-  // console.log(`newElement.firstChild`, newElement.firstChild);
-  return newElement.firstChild;
+  return newElement;
 };
 
 export const render = (container, element, place = `beforeend`) => {
@@ -14,5 +13,3 @@ export const unrender = (element) => {
     element.remove();
   }
 };
-
-// export default {createElement, render, unrender}
