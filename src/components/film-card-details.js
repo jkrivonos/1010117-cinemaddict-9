@@ -1,4 +1,4 @@
-import createElement from './../utils.js';
+import {createElement} from '../utils.js';
 
 export class FilmCardDetails {
   constructor({image, title, rating, director, writers, actors, release_date, runtime, country, genres, description}) {
@@ -24,9 +24,8 @@ export class FilmCardDetails {
     return this._element
   }
 
-
   getTemplate(){
-    return `<section class="film-details">
+    return `<section class="film-details" id="film_details">
   <form class="film-details__inner" action="" method="get">
     <div class="form-details__top-container">
       <div class="film-details__close">

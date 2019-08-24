@@ -45,4 +45,8 @@ export class FilmCard {
           </form>
   </article>`;
   }
+
+  showFullInformation(){
+
+  }
 }
