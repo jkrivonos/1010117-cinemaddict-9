@@ -61,7 +61,9 @@ function createMainContent(films) {
   document.querySelector(`.films-list__container`).append(...filmCardElementsForFirstRow);
   from += FILMS_COUNT_IN_ROW;
 
-  const sortedTopRatedFilms = films.sort((a, b) => b.rating - a.rating);
+  let copyFilms = films.slice();
+
+  const sortedTopRatedFilms = copyFilms.sort((a, b) => b.rating - a.rating);
   const sortedTopRatedFilmCardElements = [];
   for (let i = 0; i < 2; i++) {
     let filmCardElement = new FilmCard(sortedTopRatedFilms[i]).getElement();
@@ -70,7 +72,9 @@ function createMainContent(films) {
   }
   document.querySelector(`#toprated`).append(...sortedTopRatedFilmCardElements);
 
-  const sortedCommentedFilms = films.sort((a, b) => b.comments - a.comments);
+  copyFilms = films.slice();
+
+  const sortedCommentedFilms = copyFilms.sort((a, b) => b.comments - a.comments);
   const sortedCommentedFilmCardElements = [];
   for (let i = 0; i < 2; i++) {
     let filmCardElement = new FilmCard(sortedCommentedFilms[i]).getElement();
@@ -97,6 +101,3 @@ createHeader(films);
 createMainContent(films);
 setHandlerToShowMoreButton();
 createFooter(films.length);
-
-
-

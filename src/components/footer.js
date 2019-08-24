@@ -3,7 +3,6 @@ import {createElement} from '../utils.js';
 export class Footer {
   constructor() {
     this._element = null;
-    /*здесь храниться ссылка на созданный элемент*/
   }
 
   getElement(filmsAmount) {
@@ -20,6 +19,6 @@ export class Footer {
   }
 
   getTemplate(filmsAmount) {
-    return `<p>${filmsAmount} movies inside</p>`
+    return `<p>${filmsAmount} movies inside</p>`;
   }
 }

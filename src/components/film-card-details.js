@@ -1,30 +1,31 @@
 import {createElement} from '../utils.js';
 
 export class FilmCardDetails {
-  constructor({image, title, rating, director, writers, actors, release_date, runtime, country, genres, description}) {
+  constructor({image = ``, title = ``, rating = ``, director = ``, writers = ``, actors = ``, releaseDate = ``, runtime = ``, country = ``, genres = ``, description = ``}) {
     this._image = image;
     this._title = title;
     this._rating = rating;
     this._director = director;
     this._writers = writers;
     this._actors = actors;
-    this._release_date = release_date;
+    this._releaseDate = releaseDate;
     this._runtime = runtime;
     this._country = country;
     this._genres = genres;
     this._description = description;
     this._element = null;
-    /*здесь храниться ссылка на созданный элемент*/
   }
 
-  getElement(){
-    if(!this._element) {
+  getElement() {
+    if (!this._element) {
       this._element = createElement(this.getTemplate());
+      const closeFilmCard = this._element.querySelector(`.film-details__close-btn`);
+      closeFilmCard.addEventListener(`click`, () => this.unrender(this._element));
     }
-    return this._element
+    return this._element;
   }
 
-  getTemplate(){
+  getTemplate() {
     return `<section class="film-details" id="film_details">
   <form class="film-details__inner" action="" method="get">
     <div class="form-details__top-container">
@@ -65,7 +66,7 @@ export class FilmCardDetails {
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Release Date</td>
-              <td class="film-details__cell">${this._release_date}</td>
+              <td class="film-details__cell">${this._releaseDate}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Runtime</td>
@@ -193,7 +194,12 @@ export class FilmCardDetails {
       </section>
     </div>
   </form>
-</section`
+</section`;
+  }
+
+  unrender(element) {
+    if (element) {
+      element.remove();
+    }
   }
 }
-

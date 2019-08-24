@@ -3,7 +3,6 @@ import {createElement} from '../../utils.js';
 export class Menu {
   constructor() {
     this._element = null;
-    /*здесь храниться ссылка на созданный элемент*/
   }
 
   getElement(watchlistFilms, historyFilms, favoritesFilms) {
@@ -26,6 +25,6 @@ export class Menu {
     <a href="#history" class="main-navigation__item">History <span class="main-navigation__item-count">${historyFilms}</span></a>
     <a href="#favorites" class="main-navigation__item">Favorites <span class="main-navigation__item-count">${favoritesFilms}</span></a>
     <a href="#stats" class="main-navigation__item main-navigation__item--additional">Stats</a>
-  </nav>`
+  </nav>`;
   }
 }

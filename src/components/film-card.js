@@ -2,8 +2,8 @@ import {createElement} from './../utils.js';
 
 export class FilmCard {
   constructor({title, image, rating, year, duration, genre, description, comments}) {
-    this._title= title;
-    this._image= image;
+    this._title = title;
+    this._image = image;
     this._rating = rating;
     this._year = year;
     this._duration = duration;
@@ -11,7 +11,6 @@ export class FilmCard {
     this._description = description;
     this._comments = comments;
     this._element = null;
-    /*здесь храниться ссылка на созданный элемент*/
   }
 
   getElement() {
@@ -44,9 +43,5 @@ export class FilmCard {
             <button class="film-card__controls-item button film-card__controls-item--favorite">Mark as favorite</button>
           </form>
   </article>`;
-  }
-
-  showFullInformation(){
-
   }
 }

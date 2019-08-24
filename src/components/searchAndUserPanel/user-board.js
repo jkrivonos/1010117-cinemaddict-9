@@ -1,9 +1,8 @@
 import {createElement} from '../../utils.js';
 
-export class User{
+export class User {
   constructor() {
     this._element = null;
-    /*здесь храниться ссылка на созданный элемент*/
   }
 
   getElement(watchedFilms) {

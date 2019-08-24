@@ -4,12 +4,12 @@ export const createElement = (template) => {
   return newElement.firstChild;
 };
 
-export const render = (container, element, place = `beforeend`) => {
+export const render = (container, element) => {
   container.append(element);
 };
 
 export const unrender = (element) => {
-  if(element) {
+  if (element) {
     element.remove();
   }
 };

@@ -3,7 +3,6 @@ import {createElement} from '../../utils.js';
 export class SortingMenu {
   constructor() {
     this._element = null;
-    /*здесь храниться ссылка на созданный элемент*/
   }
 
   getElement() {
@@ -24,6 +23,6 @@ export class SortingMenu {
     <li><a href="#" class="sort__button sort__button--active">Sort by default</a></li>
     <li><a href="#" class="sort__button">Sort by date</a></li>
     <li><a href="#" class="sort__button">Sort by rating</a></li>
-  </ul>`
+  </ul>`;
   }
 }

@@ -3,7 +3,6 @@ import {createElement} from '../../../utils.js';
 export class Wrapper {
   constructor() {
     this._element = null;
-    /*здесь храниться ссылка на созданный элемент*/
   }
 
   getElement() {
@@ -34,6 +33,6 @@ export class Wrapper {
       <h2 class="films-list__title">Most commented</h2>
       <div class="films-list__container" id="commented"></div>
     </section> 
-  </section>`
+  </section>`;
   }
 }

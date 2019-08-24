@@ -3,7 +3,6 @@ import {createElement} from '../../utils.js';
 export class Search {
   constructor() {
     this._element = null;
-    /*здесь храниться ссылка на созданный элемент*/
   }
 
   getElement() {
