@@ -7,7 +7,6 @@ export class Footer {
   }
 
   getElement(filmsAmount) {
-    console.log(`filmsAmount`, filmsAmount);
     if (!this._element) {
       this._element = createElement(this.getTemplate(filmsAmount));
     }
@@ -21,7 +20,6 @@ export class Footer {
   }
 
   getTemplate(filmsAmount) {
-    console.log(`filmsAmount`, filmsAmount);
     return `<p>${filmsAmount} movies inside</p>`
   }
 }

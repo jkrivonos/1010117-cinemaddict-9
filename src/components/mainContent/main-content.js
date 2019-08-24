@@ -1,6 +1,3 @@
-import {menuPanel} from './menu-panel.js';
-import {sortingPanel} from './sorting-panel.js';
-import {filmsWrapper} from './mainFilms/film-cards-wrapper.js';
 import {createFilmCard, getFilmCardsFrom, FILMS_SIZE_FOR_RENDER_AT_LINE} from './mainFilms/film-card.js';
 
 const getFilteredFilmsCount = (films, keyName) => {

@@ -1,5 +1,26 @@
-export const filmsWrapper = () =>
-  `<section class="films">
+import {createElement} from '../../../utils.js';
+
+export class Wrapper {
+  constructor() {
+    this._element = null;
+    /*здесь храниться ссылка на созданный элемент*/
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+    return this._element;
+  }
+
+  removeElement() {
+    if (this._element) {
+      this._element = null;
+    }
+  }
+
+  getTemplate() {
+    return `<section class="films">
     <section class="films-list">
       <h2 class="films-list__title visually-hidden">All movies. Upcoming</h2>
       <div class="films-list__container" id="films_container"></div>
@@ -13,4 +34,6 @@ export const filmsWrapper = () =>
       <h2 class="films-list__title">Most commented</h2>
       <div class="films-list__container" id="commented"></div>
     </section> 
-  </section>`;
+  </section>`
+  }
+}
