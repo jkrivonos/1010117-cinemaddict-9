@@ -16,11 +16,34 @@ export class FilmCardDetails {
     this._element = null;
   }
 
+  onEscKeyDown(evt) {
+    console.log(` onEscKeyDown`);
+    this.unrender(evt);
+  }
+
+  unrender(element) {
+    if (element) {
+      element.remove();
+    }
+  }
+
   getElement() {
     if (!this._element) {
       this._element = createElement(this.getTemplate());
       const closeFilmCard = this._element.querySelector(`.film-details__close-btn`);
-      closeFilmCard.addEventListener(`click`, () => this.unrender(this._element));
+      closeFilmCard.addEventListener(`click`, () => this.onEscKeyDown(this._element));
+
+      document.addEventListener(`keydown`, () => this.onEscKeyDown(this._element));
+
+      const commentArea = this._element.querySelector(`textarea`);
+      commentArea.addEventListener(`focus`, () => {
+        console.log(`focus`);
+        document.removeEventListener(`keydown`, this.onEscKeyDown)
+      });
+      commentArea.addEventListener(`blur`, () => {
+        console.log(`blur`);
+        document.addEventListener(`keydown`, this.onEscKeyDown)
+      });
     }
     return this._element;
   }
@@ -195,11 +218,5 @@ export class FilmCardDetails {
     </div>
   </form>
 </section`;
-  }
-
-  unrender(element) {
-    if (element) {
-      element.remove();
-    }
   }
 }

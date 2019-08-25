@@ -11,6 +11,7 @@ import {Footer} from './components/footer';
 const ALL_FILMS_SIZE = 13;
 const FILMS_COUNT_IN_ROW = 5;
 
+
 const getFilteredFilmsCount = (films, keyName) => {
   return films.filter((el) => el[keyName]).length;
 };
@@ -18,6 +19,7 @@ const getFilteredFilmsCount = (films, keyName) => {
 const showFullInformation = (film) => {
   const fullFilmInfo = new FilmCardDetails(film).getElement();
   mainNode.append(fullFilmInfo);
+
 };
 
 let from = 0;
