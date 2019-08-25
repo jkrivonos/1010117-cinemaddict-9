@@ -3,6 +3,8 @@ import {FilmCard} from './components/film-card.js';
 import {FilmCardDetails} from './components/film-card-details.js';
 import {User} from './components/searchAndUserPanel/user-board.js';
 import {Search} from './components/searchAndUserPanel/search-board.js';
+import {SearchResultPanel} from './components/searchAndUserPanel/search-result-panel.js';
+import {SearchResultMessage} from './components/searchAndUserPanel/search-result-message.js';
 import {Menu} from './components/mainContent/menu-board.js';
 import {SortingMenu} from './components/mainContent/sorting-board.js';
 import {Wrapper} from './components/mainContent/mainFilms/films-wrapper.js';
@@ -39,14 +41,14 @@ const addFilmCards = () => {
   }
 };
 
-function createHeader(films) {
+const createHeader = (films) => {
   const headerPoint = document.querySelector(`#header`);
   const searchPanelElement = new Search().getElement();
   const userInfoElement = new User().getElement(getFilteredFilmsCount(films, `isWatchedList`));
   headerPoint.append(searchPanelElement, userInfoElement);
 }
 
-function createMainContent(films) {
+const createMainContent = (films) => {
   const mainPoint = document.querySelector(`#main`);
   const menuElement = new Menu().getElement(getFilteredFilmsCount(films, `isWatchedList`), getFilteredFilmsCount(films, `isHistory`), getFilteredFilmsCount(films, `isFavorite`));
   const sortingElement = new SortingMenu().getElement();
@@ -85,21 +87,32 @@ function createMainContent(films) {
   }
   document.querySelector(`#commented`).append(...sortedCommentedFilmCardElements);
 }
-
-function setHandlerToShowMoreButton() {
+const setHandlerToShowMoreButton = () => {
   const showMoreBtn = document.querySelector(`#showMore`);
   showMoreBtn.addEventListener(`click`, addFilmCards);
 }
+const mainNode = document.querySelector(`#main`);
 
-function createFooter(filmsAmount) {
+const createSearchResult = () => {
+  const SearchResultCount = new SearchResultPanel().getElement();
+  mainNode.append(SearchResultCount);
+};
+
+const createSearchResultMessage = () => {
+  const searchResultMsg = new SearchResultMessage().getElement();
+  mainNode.append(searchResultMsg);
+};
+
+const createFooter = (filmsAmount) => {
   const footerPoint = document.querySelector(`#footer`);
   const footerElement = new Footer().getElement(filmsAmount);
   footerPoint.append(footerElement);
 }
 
-const mainNode = document.querySelector(`#main`);
 const films = new Array(ALL_FILMS_SIZE).fill(``).map(getDataFilm);
 createHeader(films);
 createMainContent(films);
 setHandlerToShowMoreButton();
+createSearchResult();
+createSearchResultMessage();
 createFooter(films.length);
