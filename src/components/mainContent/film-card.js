@@ -1,4 +1,4 @@
-import {createElement} from './../utils.js';
+import {createElement} from '../../utils.js';
 
 export class FilmCard {
   constructor({title = ``, image = ``, rating = ``, year = ``, duration = ``, genre = ``, description = ``, comments = ``}) {

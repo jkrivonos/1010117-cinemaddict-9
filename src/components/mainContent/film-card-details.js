@@ -1,4 +1,4 @@
-import {createElement} from '../utils.js';
+import {createElement} from '../../utils.js';
 
 export class FilmCardDetails {
   constructor({image = ``, title = ``, rating = ``, director = ``, writers = ``, actors = ``, releaseDate = ``, runtime = ``, country = ``, genres = ``, description = ``}) {
@@ -16,14 +16,10 @@ export class FilmCardDetails {
     this._element = null;
   }
 
-  onEscKeyDown(evt) {
-    console.log(` onEscKeyDown`);
-    this.unrender(evt);
-  }
-
-  unrender(element) {
-    if (element) {
-      element.remove();
+  onEscKeyDown() {
+    const detailCardElement = document.querySelector(`.film-details`);
+    if (detailCardElement) {
+      detailCardElement.remove();
     }
   }
 
@@ -31,18 +27,14 @@ export class FilmCardDetails {
     if (!this._element) {
       this._element = createElement(this.getTemplate());
       const closeFilmCard = this._element.querySelector(`.film-details__close-btn`);
-      closeFilmCard.addEventListener(`click`, () => this.onEscKeyDown(this._element));
-
-      document.addEventListener(`keydown`, () => this.onEscKeyDown(this._element));
-
+      closeFilmCard.addEventListener(`click`, this.onEscKeyDown);
+      document.addEventListener(`keydown`, this.onEscKeyDown);
       const commentArea = this._element.querySelector(`textarea`);
       commentArea.addEventListener(`focus`, () => {
-        console.log(`focus`);
-        document.removeEventListener(`keydown`, this.onEscKeyDown)
+        document.removeEventListener(`keydown`, this.onEscKeyDown);
       });
       commentArea.addEventListener(`blur`, () => {
-        console.log(`blur`);
-        document.addEventListener(`keydown`, this.onEscKeyDown)
+        document.addEventListener(`keydown`, this.onEscKeyDown);
       });
     }
     return this._element;
