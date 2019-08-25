@@ -1,7 +1,9 @@
 import {createElement} from '../../utils.js';
+import {AbstractComponent} from "../abstract-component";
 
-export class FilmCardDetails {
+export class FilmCardDetails extends AbstractComponent {
   constructor({image = ``, title = ``, rating = ``, director = ``, writers = ``, actors = ``, releaseDate = ``, runtime = ``, country = ``, genre = ``, description = ``}) {
+    super();
     this._image = image;
     this._title = title;
     this._rating = rating;
@@ -13,7 +15,6 @@ export class FilmCardDetails {
     this._country = country;
     this._genre = genre;
     this._description = description;
-    this._element = null;
   }
 
   onEscKeyDown() {

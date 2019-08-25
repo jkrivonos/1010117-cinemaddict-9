@@ -1,8 +1,10 @@
 import {createElement} from '../../utils.js';
 import {FilmCardDetails} from './film-card-details';
+import {AbstractComponent} from "../abstract-component";
 
-export class FilmCard {
+export class FilmCard extends AbstractComponent{
   constructor({title = ``, image = ``, rating = ``, year = ``, duration = ``, genre = ``, description = ``, comments = ``, director = ``, writers = ``, actors = ``, releaseDate = ``, runtime = ``, country = ``}) {
+    super();
     this._title = title;
     this._image = image;
     this._rating = rating;
@@ -17,7 +19,6 @@ export class FilmCard {
     this._releaseDate = releaseDate;
     this._runtime = runtime;
     this._country = country;
-    this._element = null;
   }
 
   showFullInformation() {
