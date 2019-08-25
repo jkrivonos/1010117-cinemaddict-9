@@ -42,16 +42,16 @@ export class FilmCard extends AbstractComponent{
     document.getElementById(`main`).append(fullFilmInfo);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-      this._element.addEventListener(`click`, () => this.showFullInformation());
+  // getElement() {
+    // if (!this._element) {
+    //   this._element = createElement(this.getTemplate());
+      // this._element.addEventListener(`click`, () => this.showFullInformation());
 
-    }
-    return this._element;
-  }
+    // }
+    // return this._element;
+  // }
 
-  removeElement() {
+  removeElement(){
     if (this._element) {
       this._element = null;
     }

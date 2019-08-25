@@ -30,7 +30,7 @@ const addFilmCards = () => {
   const finalIndexFilmElement = (startIndexFilmElement + FILMS_COUNT_IN_ROW < films.length) ? startIndexFilmElement + FILMS_COUNT_IN_ROW : films.length;
   for (let i = startIndexFilmElement; i < finalIndexFilmElement; i++) {
     let filmCardElement = new FilmCard(films[i]).getElement();
-    // filmCardElement.querySelector(`.film-card__poster`).addEventListener(`click`, () => showFullInformation(films[i]));
+    // filmCardElement.addEventListener(`click`, () => showFullInformation(films[i]));
     filmCardElementsForNextRow.push(filmCardElement);
   }
   document.querySelector(`.films-list__container`).append(...filmCardElementsForNextRow);
@@ -54,7 +54,7 @@ const getSortedFilmCardElements = (films, sortingKey) => {
   const sortedFilmCardElements = [];
   for (let i = 0; i < SORTED_FILMS_AMOUNT; i++) {
     let filmCardElement = new FilmCard(sortedTopFilms[i]).getElement();
-    // filmCardElement.querySelector(`.film-card__poster`).addEventListener(`click`, () => showFullInformation(sortedTopFilms[i]));
+    // filmCardElement.addEventListener(`click`, () => showFullInformation(sortedTopFilms[i]));
     sortedFilmCardElements.push(filmCardElement);
   }
   return sortedFilmCardElements;
@@ -71,7 +71,7 @@ const createMainContent = (films) => {
   const filmCardElementsForFirstRow = [];
   for (let i = startIndexFilmElement; i < to; i++) {
     let filmCardElement = new FilmCard(films[i]).getElement();
-    // filmCardElement.querySelector(`.film-card__poster`).addEventListener(`click`, () => showFullInformation(films[i]));
+    filmCardElement.addEventListener(`click`, () => showFullInformation(films[i]));
     filmCardElementsForFirstRow.push(filmCardElement);
   }
 
