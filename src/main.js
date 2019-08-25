@@ -10,7 +10,7 @@ import {SortingMenu} from './components/mainContent/sorting-panel.js';
 import {Wrapper} from './components/mainContent/films-wrapper.js';
 import {Footer} from './components/footer';
 
-const ALL_FILMS_SIZE = 13;
+const ALL_FILMS_SIZE = 33;
 const FILMS_COUNT_IN_ROW = 5;
 const SORTED_FILMS_AMOUNT = 2;
 
@@ -30,7 +30,7 @@ const addFilmCards = () => {
   const finalIndexFilmElement = (startIndexFilmElement + FILMS_COUNT_IN_ROW < films.length) ? startIndexFilmElement + FILMS_COUNT_IN_ROW : films.length;
   for (let i = startIndexFilmElement; i < finalIndexFilmElement; i++) {
     let filmCardElement = new FilmCard(films[i]).getElement();
-    filmCardElement.addEventListener(`click`, () => showFullInformation(films[i]));
+    filmCardElement.querySelector(`.film-card__poster`).addEventListener(`click`, () => showFullInformation(films[i]));
     filmCardElementsForNextRow.push(filmCardElement);
   }
   document.querySelector(`.films-list__container`).append(...filmCardElementsForNextRow);
@@ -54,7 +54,8 @@ const getSortedFilmCardElements = (films, sortingKey) => {
   const sortedFilmCardElements = [];
   for (let i = 0; i < SORTED_FILMS_AMOUNT; i++) {
     let filmCardElement = new FilmCard(sortedTopFilms[i]).getElement();
-    filmCardElement.addEventListener(`click`, () => showFullInformation(sortedTopFilms[i]));
+    console.log(`filmCardElement`, filmCardElement);
+    filmCardElement.querySelector(`.film-card__poster`).addEventListener(`click`, () => showFullInformation(sortedTopFilms[i]));
     sortedFilmCardElements.push(filmCardElement);
   }
   return sortedFilmCardElements;
@@ -71,7 +72,7 @@ const createMainContent = (films) => {
   const filmCardElementsForFirstRow = [];
   for (let i = startIndexFilmElement; i < to; i++) {
     let filmCardElement = new FilmCard(films[i]).getElement();
-    filmCardElement.addEventListener(`click`, () => showFullInformation(films[i]));
+    filmCardElement.querySelector(`.film-card__poster`).addEventListener(`click`, () => showFullInformation(films[i]));
     filmCardElementsForFirstRow.push(filmCardElement);
   }
 
@@ -109,6 +110,6 @@ const films = new Array(ALL_FILMS_SIZE).fill(``).map(getDataFilm);
 createHeader(films);
 createMainContent(films);
 setHandlerToShowMoreButton();
-createSearchResult();
-createSearchResultMessage();
+// createSearchResult();
+// createSearchResultMessage();
 createFooter(films.length);

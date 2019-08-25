@@ -26,17 +26,10 @@ export class User {
   }
 
   getUserStatus(watchedFilms) {
-    if (watchedFilms > 0) {
-      if (watchedFilms > 10) {
-        if (watchedFilms >= 20) {
-          return `movie buff`;
-        }
-        return `fun`;
-      } else if (watchedFilms <= 10) {
-        return `novice`;
-      }
-    } return ``;
+    if (watchedFilms >= 20) {
+      return `movie buff`;
+    } else if (watchedFilms > 10) {
+      return `fun`;
+    } else return `novice`
   }
-
-
 }
