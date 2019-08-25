@@ -1,7 +1,7 @@
 import {createElement} from '../../utils.js';
 
 export class FilmCardDetails {
-  constructor({image = ``, title = ``, rating = ``, director = ``, writers = ``, actors = ``, releaseDate = ``, runtime = ``, country = ``, genres = ``, description = ``}) {
+  constructor({image = ``, title = ``, rating = ``, director = ``, writers = ``, actors = ``, releaseDate = ``, runtime = ``, country = ``, genre = ``, description = ``}) {
     this._image = image;
     this._title = title;
     this._rating = rating;
@@ -11,7 +11,7 @@ export class FilmCardDetails {
     this._releaseDate = releaseDate;
     this._runtime = runtime;
     this._country = country;
-    this._genres = genres;
+    this._genre = genre;
     this._description = description;
     this._element = null;
   }
@@ -94,9 +94,9 @@ export class FilmCardDetails {
             <tr class="film-details__row">
               <td class="film-details__term">Genres</td>
               <td class="film-details__cell">
-                <span class="film-details__genre">${this._genres}</span>
-                <span class="film-details__genre">${this._genres}</span>
-                <span class="film-details__genre">${this._genres}</span></td>
+                <span class="film-details__genre">${this._genre}</span>
+                <span class="film-details__genre">${this._genre}</span>
+                <span class="film-details__genre">${this._genre}</span></td>
             </tr>
           </table>
 

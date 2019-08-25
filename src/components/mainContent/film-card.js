@@ -1,7 +1,8 @@
 import {createElement} from '../../utils.js';
+import {FilmCardDetails} from './film-card-details';
 
 export class FilmCard {
-  constructor({title = ``, image = ``, rating = ``, year = ``, duration = ``, genre = ``, description = ``, comments = ``}) {
+  constructor({title = ``, image = ``, rating = ``, year = ``, duration = ``, genre = ``, description = ``, comments = ``, director = ``, writers = ``, actors = ``, releaseDate = ``, runtime = ``, country = ``}) {
     this._title = title;
     this._image = image;
     this._rating = rating;
@@ -10,12 +11,41 @@ export class FilmCard {
     this._genre = genre;
     this._description = description;
     this._comments = comments;
+    this._director = director;
+    this._writers = writers;
+    this._actors = actors;
+    this._releaseDate = releaseDate;
+    this._runtime = runtime;
+    this._country = country;
     this._element = null;
+  }
+
+  showFullInformation() {
+    const fullFilmInfo = new FilmCardDetails({
+      title: this._title,
+      image: this._image,
+      rating: this._rating,
+      year: this._year,
+      duration: this._duration,
+      genre: this._genre,
+      description: this._description,
+      comments: this._comments,
+      director: this._director,
+      writers: this._writers,
+      actors: this._actors,
+      releaseDate: this._releaseDate,
+      runtime: this._runtime,
+      country: this._country
+    }).getElement();
+
+    document.getElementById(`main`).append(fullFilmInfo);
   }
 
   getElement() {
     if (!this._element) {
       this._element = createElement(this.getTemplate());
+      this._element.addEventListener(`click`, () => this.showFullInformation());
+
     }
     return this._element;
   }
