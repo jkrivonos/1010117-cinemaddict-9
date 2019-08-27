@@ -1,28 +1,26 @@
 import {getDataFilm} from '../src/data.js';
+import {PageController} from './controllers/page-controller.js';
 
 // import {FilmCard} from './components/mainContent/film-card.js';
 // import {FilmCardDetails} from './components/mainContent/film-card-details.js';
-// import {User} from './components/searchAndUserPanel/user-panel.js';
-// import {Search} from './components/searchAndUserPanel/search-panel.js';
-// import {SearchResultPanel} from './components/searchAndUserPanel/search-result-panel.js';
-// import {SearchResultMessage} from './components/searchAndUserPanel/search-result-message.js';
-// import {Menu} from './components/mainContent/menu-panel.js';
-// import {SortingMenu} from './components/mainContent/sorting-panel.js';
-// import {Wrapper} from './components/mainContent/films-wrapper.js';
-// import {Footer} from './components/footer';
+import {User} from './components/searchAndUserPanel/user-panel.js';
+import {Search} from './components/searchAndUserPanel/search-panel.js';
+import {SearchResultPanel} from './components/searchAndUserPanel/search-result-panel.js';
+import {SearchResultMessage} from './components/searchAndUserPanel/search-result-message.js';
+import {Menu} from './components/mainContent/menu-panel.js';
+import {SortingMenu} from './components/mainContent/sorting-panel.js';
+import {Wrapper} from './components/mainContent/films-wrapper.js';
+import {Footer} from './components/footer';
 
-const ALL_FILMS_SIZE = 33;
+const ALL_FILMS_SIZE = 7;
 const films = new Array(ALL_FILMS_SIZE).fill(``).map(getDataFilm);
-const filmsContainer = document.querySelector(`.films`);
-const pageController = new PageController(filmsContainer, films);
-pageController.init();
 
 // const FILMS_COUNT_IN_ROW = 5;
 // const SORTED_FILMS_AMOUNT = 2;
 //
-// const getFilteredFilmsCount = (films, keyName) => {
-//   return films.filter((el) => el[keyName]).length;
-// };
+const getFilteredFilmsCount = (films, keyName) => {
+  return films.filter((el) => el[keyName]).length;
+};
 //
 //
 // const onEscKeyDown = () => {
@@ -69,12 +67,12 @@ pageController.init();
 //   }
 // };
 //
-// const createHeader = (films) => {
-//   const headerPoint = document.getElementById(`header`);
-//   const searchPanelElement = new Search().getElement();
-//   const userInfoElement = new User().getElement(getFilteredFilmsCount(films, `isWatchedList`));
-//   headerPoint.append(searchPanelElement, userInfoElement);
-// };
+const createHeader = (films) => {
+  const headerPoint = document.getElementById(`header`);
+  const searchPanelElement = new Search().getElement();
+  const userInfoElement = new User().getElement(getFilteredFilmsCount(films, `isWatchedList`));
+  headerPoint.append(searchPanelElement, userInfoElement);
+};
 //
 // const getSortedFilmCardElements = (films, sortingKey) => {
 //   let copyFilms = films.slice();
@@ -88,22 +86,22 @@ pageController.init();
 //   return sortedFilmCardElements;
 // };
 //
-// const createMainContent = (films) => {
-//   const mainPoint = document.getElementById(`main`);
-//   const menuElement = new Menu().getElement(getFilteredFilmsCount(films, `isWatchedList`), getFilteredFilmsCount(films, `isHistory`), getFilteredFilmsCount(films, `isFavorite`));
-//   const sortingElement = new SortingMenu().getElement();
-//   const filmsWrapper = new Wrapper().getElement();
-//   mainPoint.append(menuElement, sortingElement, filmsWrapper);
-//
-//   const to = (startIndexFilmElement + FILMS_COUNT_IN_ROW < films.length) ? startIndexFilmElement + FILMS_COUNT_IN_ROW : films.length;
-//   const filmCardElementsForFirstRow = [];
-//   for (let i = startIndexFilmElement; i < to; i++) {
-//     let filmCardElement = new FilmCard(films[i]).getElement();
-//     filmCardElement.addEventListener(`click`, () => showFullInformation(films[i]));
-//     filmCardElementsForFirstRow.push(filmCardElement);
-//
-//
-//   }
+const createMainContent = (films) => {
+  const mainPoint = document.getElementById(`main`);
+  const menuElement = new Menu().getElement(getFilteredFilmsCount(films, `isWatchedList`), getFilteredFilmsCount(films, `isHistory`), getFilteredFilmsCount(films, `isFavorite`));
+  const sortingElement = new SortingMenu().getElement();
+  const filmsWrapper = new Wrapper().getElement();
+  mainPoint.append(menuElement, sortingElement, filmsWrapper);
+
+  // const to = (startIndexFilmElement + FILMS_COUNT_IN_ROW < films.length) ? startIndexFilmElement + FILMS_COUNT_IN_ROW : films.length;
+  // const filmCardElementsForFirstRow = [];
+  // for (let i = startIndexFilmElement; i < to; i++) {
+  //   let filmCardElement = new FilmCard(films[i]).getElement();
+  //   filmCardElement.addEventListener(`click`, () => showFullInformation(films[i]));
+  //   filmCardElementsForFirstRow.push(filmCardElement);
+
+
+  }
 //
 //   document.querySelector(`.films-list__container`).append(...filmCardElementsForFirstRow);
 //   startIndexFilmElement += FILMS_COUNT_IN_ROW;
@@ -128,17 +126,22 @@ pageController.init();
 //   const searchResultMsg = new SearchResultMessage().getElement();
 //   mainNode.append(searchResultMsg);
 // };
-//
-//
-// const createFooter = (filmsAmount) => {
-//   const footerPoint = document.getElementById(`footer`);
-//   const footerElement = new Footer().getElement(filmsAmount);
-//   footerPoint.append(footerElement);
-// };
-//
-// createHeader(films);
-// createMainContent(films);
+
+
+const createFooter = (filmsAmount) => {
+  const footerPoint = document.getElementById(`footer`);
+  const footerElement = new Footer().getElement(filmsAmount);
+  footerPoint.append(footerElement);
+};
+
+createHeader(films);
+createMainContent(films);
+const filmsContainer = document.querySelector(`.films-list__container`);
+const pageController = new PageController(filmsContainer, films);
+pageController.init();
+
+
 // setHandlerToShowMoreButton();
 // // createSearchResult();
 // // createSearchResultMessage();
-// createFooter(films.length);
+createFooter(films.length);

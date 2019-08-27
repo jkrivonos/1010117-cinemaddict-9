@@ -3,20 +3,15 @@ import {FilmsList} from '../components/mainContent/films-list.js'
 import {getDataFilm} from '../data.js';
 import {FilmCard} from '../components/mainContent/film-card.js';
 import {FilmCardDetails} from '../components/mainContent/film-card-details.js';
-import {User} from '../components/searchAndUserPanel/user-panel.js';
-import {Search} from '../components/searchAndUserPanel/search-panel.js';
 import {SearchResultPanel} from '../components/searchAndUserPanel/search-result-panel.js';
 import {SearchResultMessage} from '../components/searchAndUserPanel/search-result-message.js';
-import {Menu} from '../components/mainContent/menu-panel.js';
-import {SortingMenu} from '../components/mainContent/sorting-panel.js';
-import {Wrapper} from '../components/mainContent/films-wrapper.js';
-import {Footer} from '../components/footer';
 import {render} from '../utils.js'
 
 const FILMS_COUNT_IN_ROW = 5;
 const SORTED_FILMS_AMOUNT = 2;
+// const ALL_FILMS_SIZE = 8;
 
-class PageController {
+export class PageController {
   constructor(container, films) {
     this._container = container;/*контейнер где мы фильмы выводим*/
     this._films = films;
@@ -26,15 +21,13 @@ class PageController {
   init() {
     render(this._container, this._filmsContainer.getElement(), `beforeend`);
     render(this._filmsContainer.getElement(), this._filmsList.getElement(), `beforeend`);
-
+    console.log(`_films`, this._films);
     this._films.forEach((film) => this._renderFilm(film));
   }
   _renderFilm(film){
-
-
-    const getFilteredFilmsCount = (films, keyName) => {
-      return films.filter((el) => el[keyName]).length;
-    };
+    // const getFilteredFilmsCount = (films, keyName) => {
+    //   return films.filter((el) => el[keyName]).length;
+    // };
 
     const onEscKeyDown = () => {
       console.log(`onEscKeyDown`);
@@ -63,25 +56,18 @@ class PageController {
     let startIndexFilmElement = 0;
     const addFilmCards = () => {
       const filmCardElementsForNextRow = [];
-      const finalIndexFilmElement = (startIndexFilmElement + FILMS_COUNT_IN_ROW < films.length) ? startIndexFilmElement + FILMS_COUNT_IN_ROW : films.length;
+      const finalIndexFilmElement = (startIndexFilmElement + FILMS_COUNT_IN_ROW < this._films.length) ? startIndexFilmElement + FILMS_COUNT_IN_ROW : this._films.length;
       for (let i = startIndexFilmElement; i < finalIndexFilmElement; i++) {
-        let filmCardElement = new FilmCard(films[i]).getElement();
-        filmCardElement.addEventListener(`click`, () => showFullInformation(films[i]));
+        let filmCardElement = new FilmCard(this._films[i]).getElement();
+        filmCardElement.addEventListener(`click`, () => showFullInformation(this._films[i]));
         filmCardElementsForNextRow.push(filmCardElement);
       }
       document.querySelector(`.films-list__container`).append(...filmCardElementsForNextRow);
-      if (finalIndexFilmElement === films.length) {
+      if (finalIndexFilmElement === this._films.length) {
         document.getElementById(`showMore`).classList.add(`disabledButton`);
       } else {
         startIndexFilmElement += FILMS_COUNT_IN_ROW;
       }
-    };
-
-    const createHeader = (films) => {
-      const headerPoint = document.getElementById(`header`);
-      const searchPanelElement = new Search().getElement();
-      const userInfoElement = new User().getElement(getFilteredFilmsCount(films, `isWatchedList`));
-      headerPoint.append(searchPanelElement, userInfoElement);
     };
 
     const getSortedFilmCardElements = (films, sortingKey) => {
@@ -97,25 +83,25 @@ class PageController {
     };
 
     const createMainContent = (films) => {
-      const mainPoint = document.getElementById(`main`);
-      const menuElement = new Menu().getElement(getFilteredFilmsCount(films, `isWatchedList`), getFilteredFilmsCount(films, `isHistory`), getFilteredFilmsCount(films, `isFavorite`));
-      const sortingElement = new SortingMenu().getElement();
-      const filmsWrapper = new Wrapper().getElement();
-      mainPoint.append(menuElement, sortingElement, filmsWrapper);
-
+      console.log(`startIndexFilmElement`, startIndexFilmElement);
+      console.log(`FILMS_COUNT_IN_ROW`, FILMS_COUNT_IN_ROW);
+      console.log(`films.length`, films.length);
       const to = (startIndexFilmElement + FILMS_COUNT_IN_ROW < films.length) ? startIndexFilmElement + FILMS_COUNT_IN_ROW : films.length;
+      console.log(`to`, to);
       const filmCardElementsForFirstRow = [];
       for (let i = startIndexFilmElement; i < to; i++) {
         let filmCardElement = new FilmCard(films[i]).getElement();
         filmCardElement.addEventListener(`click`, () => showFullInformation(films[i]));
         filmCardElementsForFirstRow.push(filmCardElement);
+
       }
 
       document.querySelector(`.films-list__container`).append(...filmCardElementsForFirstRow);
       startIndexFilmElement += FILMS_COUNT_IN_ROW;
-      const sortedTopRatedFilmCardElements = getSortedFilmCardElements(films, `rating`);
+      console.log(`!!!startIndexFilmElement` , startIndexFilmElement);
+      const sortedTopRatedFilmCardElements = getSortedFilmCardElements(this._films, `rating`);
       document.getElementById(`toprated`).append(...sortedTopRatedFilmCardElements);
-      const sortedCommentedFilmCardElements = getSortedFilmCardElements(films, `comments`);
+      const sortedCommentedFilmCardElements = getSortedFilmCardElements(this._films, `comments`);
       document.getElementById(`commented`).append(...sortedCommentedFilmCardElements);
     };
 
@@ -134,18 +120,8 @@ class PageController {
       const searchResultMsg = new SearchResultMessage().getElement();
       mainNode.append(searchResultMsg);
     };
-    const createFooter = (filmsAmount) => {
-      const footerPoint = document.getElementById(`footer`);
-      const footerElement = new Footer().getElement(filmsAmount);
-      footerPoint.append(footerElement);
-    };
 
-    const films = new Array(ALL_FILMS_SIZE).fill(``).map(getDataFilm);
-    createHeader(films);
-    createMainContent(films);
+    createMainContent(this._films);
     setHandlerToShowMoreButton();
-// createSearchResult();
-// createSearchResultMessage();
-    createFooter(films.length);
   }
 }
