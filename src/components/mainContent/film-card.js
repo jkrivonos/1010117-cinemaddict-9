@@ -20,27 +20,27 @@ export class FilmCard extends AbstractComponent{
     this._runtime = runtime;
     this._country = country;
   }
-
-  showFullInformation() {
-    const fullFilmInfo = new FilmCardDetails({
-      title: this._title,
-      image: this._image,
-      rating: this._rating,
-      year: this._year,
-      duration: this._duration,
-      genre: this._genre,
-      description: this._description,
-      comments: this._comments,
-      director: this._director,
-      writers: this._writers,
-      actors: this._actors,
-      releaseDate: this._releaseDate,
-      runtime: this._runtime,
-      country: this._country
-    }).getElement();
-
-    document.getElementById(`main`).append(fullFilmInfo);
-  }
+  //
+  // showFullInformation() {
+  //   const fullFilmInfo = new FilmCardDetails({
+  //     title: this._title,
+  //     image: this._image,
+  //     rating: this._rating,
+  //     year: this._year,
+  //     duration: this._duration,
+  //     genre: this._genre,
+  //     description: this._description,
+  //     comments: this._comments,
+  //     director: this._director,
+  //     writers: this._writers,
+  //     actors: this._actors,
+  //     releaseDate: this._releaseDate,
+  //     runtime: this._runtime,
+  //     country: this._country
+  //   }).getElement();
+  //
+  //   document.getElementById(`main`).append(fullFilmInfo);
+  // }
 
   // getElement() {
     // if (!this._element) {

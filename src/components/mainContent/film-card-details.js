@@ -17,26 +17,9 @@ export class FilmCardDetails extends AbstractComponent {
     this._description = description;
   }
 
-  onEscKeyDown() {
-    const detailCardElement = document.querySelector(`.film-details`);
-    if (detailCardElement) {
-      detailCardElement.remove();
-    }
-  }
-
   getElement() {
     if (!this._element) {
       this._element = createElement(this.getTemplate());
-      const closeFilmCard = this._element.querySelector(`.film-details__close-btn`);
-      closeFilmCard.addEventListener(`click`, this.onEscKeyDown);
-      document.addEventListener(`keydown`, this.onEscKeyDown);
-      const commentArea = this._element.querySelector(`textarea`);
-      commentArea.addEventListener(`focus`, () => {
-        document.removeEventListener(`keydown`, this.onEscKeyDown);
-      });
-      commentArea.addEventListener(`blur`, () => {
-        document.addEventListener(`keydown`, this.onEscKeyDown);
-      });
     }
     return this._element;
   }

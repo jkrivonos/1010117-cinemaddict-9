@@ -2,15 +2,15 @@ import {createElement} from '../../utils.js';
 import {AbstractComponent} from "../abstract-component";
 
 export class SortingMenu extends AbstractComponent{
-  constructor() {
-    super();
-  }
-
-  removeElement() {
-    if (this._element) {
-      this._element = null;
-    }
-  }
+  // constructor() {
+  //   super();
+  // }
+  //
+  // removeElement() {
+  //   if (this._element) {
+  //     this._element = null;
+  //   }
+  // }
 
   getTemplate() {
     return `<ul class="sort">
