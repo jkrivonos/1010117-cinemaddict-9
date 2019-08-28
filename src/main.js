@@ -3,8 +3,6 @@ import {PageController} from './controllers/page-controller.js';
 import {User} from './components/searchAndUserPanel/user-panel.js';
 import {Search} from './components/searchAndUserPanel/search-panel.js';
 import {Menu} from './components/mainContent/menu-panel.js';
-// import {SortingMenu} from './components/mainContent/sorting-panel.js';
-import {Wrapper} from './components/mainContent/films-wrapper.js';
 import {Footer} from './components/footer';
 
 const ALL_FILMS_SIZE = 11;
@@ -18,12 +16,10 @@ const createHeader = (filmsContainer) => {
   const userInfoElement = new User().getElement(getFilteredFilmsCount(filmsContainer, `isWatchedList`));
   headerPoint.append(searchPanelElement, userInfoElement);
 };
-const createMainContent = (filmsContent) => {
-  const mainPoint = document.getElementById(`main`);
+const mainPoint = document.getElementById(`main`);
+const createMenu = (filmsContent) => {
   const menuElement = new Menu().getElement(getFilteredFilmsCount(filmsContent, `isWatchedList`), getFilteredFilmsCount(filmsContent, `isHistory`), getFilteredFilmsCount(filmsContent, `isFavorite`));
-  // const sortingElement = new SortingMenu().getElement();
-  const filmsWrapper = new Wrapper().getElement();
-  mainPoint.append(menuElement, filmsWrapper);
+  mainPoint.append(menuElement);
 };
 const createFooter = (filmsAmount) => {
   const footerPoint = document.getElementById(`footer`);
@@ -31,7 +27,7 @@ const createFooter = (filmsAmount) => {
   footerPoint.append(footerElement);
 };
 createHeader(films);
-createMainContent(films);
+createMenu(films);
 const filmsContainer = document.querySelector(`.films-list__container`);
 const pageController = new PageController(filmsContainer, films);
 pageController.init();

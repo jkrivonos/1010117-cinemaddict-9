@@ -1,7 +1,7 @@
-import {FilmsContainer} from '../components/mainContent/films-container.js';
 import {FilmsList} from '../components/mainContent/films-list.js';
 import {FilmCard} from '../components/mainContent/film-card.js';
 import {FilmCardDetails} from '../components/mainContent/film-card-details.js';
+import {Wrapper} from '../components/mainContent/films-wrapper';
 import {SearchResultPanel} from '../components/searchAndUserPanel/search-result-panel.js';
 import {SearchResultMessage} from '../components/searchAndUserPanel/search-result-message.js';
 import {SortingMenu} from '../components/mainContent/sorting-panel.js';
@@ -9,24 +9,23 @@ import {render} from '../utils.js';
 
 const FILMS_COUNT_IN_ROW = 5;
 const SORTED_FILMS_AMOUNT = 2;
-// const ALL_FILMS_SIZE = 8;
 
 export class PageController {
   constructor(container, films) {
-    this._container = container;
+    // this._container = container;
     this._films = films;
-    this._filmsContainer = new FilmsContainer();
     this._filmsList = new FilmsList();
     this._sortingMenu = new SortingMenu();
+    this._wrapper = new Wrapper();
   }
   init() {
     render(document.getElementById(`main`), this._sortingMenu.getElement(), `beforeend`);
+    render(document.getElementById(`main`), this._wrapper.getElement(), `beforeend`);
     this._sortingMenu.getElement().addEventListener(`click`, (evt) => this._onSortLinkClick(evt));
-    render(this._container, this._filmsContainer.getElement(), `beforeend`);
-    render(this._filmsContainer.getElement(), this._filmsList.getElement(), `beforeend`);
     this._renderFilm();
   }
   _renderFilm() {
+    console.log(`_renderFilm`)
     const onEscKeyDown = () => {
       const detailCardElement = document.querySelector(`.film-details`);
       if (detailCardElement) {
@@ -121,20 +120,21 @@ export class PageController {
     if (evt.target.tagName !== `A`) {
       return;
     }
-    
     this._filmsList.getElement().innerHTML = ``;
-
     switch (evt.target.dataset.sortType) {
       case `date-up`:
+        console.log(`up`);
         const sortedByDateUpTasks = this._films.slice().sort((a, b) => a.year - b.year);
         sortedByDateUpTasks.forEach((film) => this._renderFilm(film));
         break;
-      case `date-down`:
-        const sortedByDateDownTasks = this._films.slice().sort((a, b) => b.year - a.year);
+      case `rating`:
+        console.log(`rating`);
+        const sortedByDateDownTasks = this._films.slice().sort((a, b) => b.rating - a.rating);
         sortedByDateDownTasks.forEach((film) => this._renderFilm(film));
         break;
       case `default`:
-        this._films.forEach((film) => this._renderTask(film));
+        console.log(`default`);
+        this._films.forEach((film) => this._renderFilm(film));
         break;
     }
   }
