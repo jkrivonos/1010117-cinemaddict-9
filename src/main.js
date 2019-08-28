@@ -1,51 +1,87 @@
-import {getHeaderPanel} from './components/searchAndUserPanel/header-panel.js';
-import {getContent} from './components/mainContent/main-content.js';
-import {getFilmCardsFrom, FILMS_SIZE_FOR_RENDER_AT_LINE} from './components/mainContent/mainFilms/film-card.js';
 import {getDataFilm} from '../src/data.js';
-import {getFooterPanel} from '../src/components/footer-statistics';
-import {filmDetailsWrapper} from './components/filmDetails/film-details-wrapper.js';
+import {FilmCard} from './components/film-card.js';
+import {FilmCardDetails} from './components/film-card-details.js';
+import {User} from './components/searchAndUserPanel/user-board.js';
+import {Search} from './components/searchAndUserPanel/search-board.js';
+import {Menu} from './components/mainContent/menu-board.js';
+import {SortingMenu} from './components/mainContent/sorting-board.js';
+import {Wrapper} from './components/mainContent/mainFilms/films-wrapper.js';
+import {Footer} from './components/footer';
 
-const ALL_FILMS_SIZE = 15;
+const ALL_FILMS_SIZE = 13;
+const FILMS_COUNT_IN_ROW = 5;
 
-const getFilteredFilms = (films, keyName) => {
+const getFilteredFilmsCount = (films, keyName) => {
   return films.filter((el) => el[keyName]).length;
 };
 
-const render = (container, template) => {
-  container.insertAdjacentHTML(`beforeend`, template);
-};
-
-const showFullInformation = () => {
-  render(mainNode, filmDetailsWrapper());
+const showFullInformation = (film) => {
+  const fullFilmInfo = new FilmCardDetails(film).getElement();
+  mainNode.append(fullFilmInfo);
 };
 
 let from = 0;
-const setShowFullInformationHandler = () => {
-  const filmCards = document.querySelectorAll(`.film-card`);
-  let finish = (from + FILMS_SIZE_FOR_RENDER_AT_LINE < films.length) ? from + FILMS_SIZE_FOR_RENDER_AT_LINE : films.length;
-  for (let i = from; i < from + FILMS_SIZE_FOR_RENDER_AT_LINE; i++) {
-    filmCards[i].addEventListener(`click`, showFullInformation);
+const addFilmCards = () => {
+  const filmCardElementsForNextRow = [];
+  const to = (from + FILMS_COUNT_IN_ROW < films.length) ? from + FILMS_COUNT_IN_ROW : films.length;
+  for (let i = from; i < to; i++) {
+    let filmCardElement = new FilmCard(films[i]).getElement();
+    filmCardElement.addEventListener(`click`, () => showFullInformation(films[i]));
+    filmCardElementsForNextRow.push(filmCardElement);
   }
-  if (finish === films.length) {
+  document.querySelector(`.films-list__container`).append(...filmCardElementsForNextRow);
+  if (to === films.length) {
     document.querySelector(`#showMore`).classList.add(`disabledButton`);
   } else {
-    from += FILMS_SIZE_FOR_RENDER_AT_LINE;
+    from += FILMS_COUNT_IN_ROW;
   }
-};
-
-const addFilmCards = () => {
-  render(filmsWrapperNode, getFilmCardsFrom(films, from, FILMS_SIZE_FOR_RENDER_AT_LINE));
-  setShowFullInformationHandler();
 };
 
 function createHeader(films) {
-  const headerNode = document.querySelector(`#header`);
-  render(headerNode, getHeaderPanel(getFilteredFilms(films, `isWatchedList`)));
+  const headerPoint = document.querySelector(`#header`);
+  const searchPanelElement = new Search().getElement();
+  const userInfoElement = new User().getElement(getFilteredFilmsCount(films, `isWatchedList`));
+  headerPoint.append(searchPanelElement, userInfoElement);
 }
 
 function createMainContent(films) {
-  render(mainNode, getContent(films));
-  setShowFullInformationHandler();
+  const mainPoint = document.querySelector(`#main`);
+  const menuElement = new Menu().getElement(getFilteredFilmsCount(films, `isWatchedList`), getFilteredFilmsCount(films, `isHistory`), getFilteredFilmsCount(films, `isFavorite`));
+  const sortingElement = new SortingMenu().getElement();
+  const filmsWrapper = new Wrapper().getElement();
+  mainPoint.append(menuElement, sortingElement, filmsWrapper);
+
+  const to = (from + FILMS_COUNT_IN_ROW < films.length) ? from + FILMS_COUNT_IN_ROW : films.length;
+  const filmCardElementsForFirstRow = [];
+  for (let i = from; i < to; i++) {
+    let filmCardElement = new FilmCard(films[i]).getElement();
+    filmCardElement.addEventListener(`click`, () => showFullInformation(films[i]));
+    filmCardElementsForFirstRow.push(filmCardElement);
+  }
+  document.querySelector(`.films-list__container`).append(...filmCardElementsForFirstRow);
+  from += FILMS_COUNT_IN_ROW;
+
+  let copyFilms = films.slice();
+
+  const sortedTopRatedFilms = copyFilms.sort((a, b) => b.rating - a.rating);
+  const sortedTopRatedFilmCardElements = [];
+  for (let i = 0; i < 2; i++) {
+    let filmCardElement = new FilmCard(sortedTopRatedFilms[i]).getElement();
+    filmCardElement.addEventListener(`click`, () => showFullInformation(sortedTopRatedFilms[i]));
+    sortedTopRatedFilmCardElements.push(filmCardElement);
+  }
+  document.querySelector(`#toprated`).append(...sortedTopRatedFilmCardElements);
+
+  copyFilms = films.slice();
+
+  const sortedCommentedFilms = copyFilms.sort((a, b) => b.comments - a.comments);
+  const sortedCommentedFilmCardElements = [];
+  for (let i = 0; i < 2; i++) {
+    let filmCardElement = new FilmCard(sortedCommentedFilms[i]).getElement();
+    filmCardElement.addEventListener(`click`, () => showFullInformation(sortedCommentedFilms[i]));
+    sortedCommentedFilmCardElements.push(filmCardElement);
+  }
+  document.querySelector(`#commented`).append(...sortedCommentedFilmCardElements);
 }
 
 function setHandlerToShowMoreButton() {
@@ -54,14 +90,14 @@ function setHandlerToShowMoreButton() {
 }
 
 function createFooter(filmsAmount) {
-  const footerStats = document.querySelector(`#footer`);
-  render(footerStats, getFooterPanel(filmsAmount));
+  const footerPoint = document.querySelector(`#footer`);
+  const footerElement = new Footer().getElement(filmsAmount);
+  footerPoint.append(footerElement);
 }
 
 const mainNode = document.querySelector(`#main`);
 const films = new Array(ALL_FILMS_SIZE).fill(``).map(getDataFilm);
 createHeader(films);
 createMainContent(films);
-const filmsWrapperNode = document.querySelector(`#films_container`);
 setHandlerToShowMoreButton();
 createFooter(films.length);
