@@ -3,7 +3,7 @@ import {PageController} from './controllers/page-controller.js';
 import {User} from './components/searchAndUserPanel/user-panel.js';
 import {Search} from './components/searchAndUserPanel/search-panel.js';
 import {Menu} from './components/mainContent/menu-panel.js';
-import {SortingMenu} from './components/mainContent/sorting-panel.js';
+// import {SortingMenu} from './components/mainContent/sorting-panel.js';
 import {Wrapper} from './components/mainContent/films-wrapper.js';
 import {Footer} from './components/footer';
 
@@ -21,9 +21,9 @@ const createHeader = (filmsContainer) => {
 const createMainContent = (filmsContent) => {
   const mainPoint = document.getElementById(`main`);
   const menuElement = new Menu().getElement(getFilteredFilmsCount(filmsContent, `isWatchedList`), getFilteredFilmsCount(filmsContent, `isHistory`), getFilteredFilmsCount(filmsContent, `isFavorite`));
-  const sortingElement = new SortingMenu().getElement();
+  // const sortingElement = new SortingMenu().getElement();
   const filmsWrapper = new Wrapper().getElement();
-  mainPoint.append(menuElement, sortingElement, filmsWrapper);
+  mainPoint.append(menuElement, filmsWrapper);
 };
 const createFooter = (filmsAmount) => {
   const footerPoint = document.getElementById(`footer`);
