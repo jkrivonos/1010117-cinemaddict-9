@@ -22,9 +22,9 @@ export class PageController {
     render(this._container, this._filmsContainer.getElement(), `beforeend`);
     render(this._filmsContainer.getElement(), this._filmsList.getElement(), `beforeend`);
     console.log(`_films`, this._films);
-    this._films.forEach((film) => this._renderFilm(film));
+    this._renderFilm();
   }
-  _renderFilm(film){
+  _renderFilm(){
     // const getFilteredFilmsCount = (films, keyName) => {
     //   return films.filter((el) => el[keyName]).length;
     // };
@@ -83,6 +83,7 @@ export class PageController {
     };
 
     const createMainContent = (films) => {
+      console.log(`createMainContent`);
       console.log(`startIndexFilmElement`, startIndexFilmElement);
       console.log(`FILMS_COUNT_IN_ROW`, FILMS_COUNT_IN_ROW);
       console.log(`films.length`, films.length);
