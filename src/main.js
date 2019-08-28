@@ -4,8 +4,10 @@ import {User} from './components/searchAndUserPanel/user-panel.js';
 import {Search} from './components/searchAndUserPanel/search-panel.js';
 import {Menu} from './components/mainContent/menu-panel.js';
 import {Footer} from './components/footer';
+import {SearchResultPanel} from './components/searchAndUserPanel/search-result-panel.js';
+import {SearchResultMessage} from './components/searchAndUserPanel/search-result-message.js';
 
-const ALL_FILMS_SIZE = 11;
+const ALL_FILMS_SIZE = 18;
 const films = new Array(ALL_FILMS_SIZE).fill(``).map(getDataFilm);
 const getFilteredFilmsCount = (filmsStack, keyName) => {
   return filmsStack.filter((el) => el[keyName]).length;
@@ -26,9 +28,24 @@ const createFooter = (filmsAmount) => {
   const footerElement = new Footer().getElement(filmsAmount);
   footerPoint.append(footerElement);
 };
+
+const createSearchResult = () => {
+  const SearchResultCount = new SearchResultPanel().getElement();
+  mainPoint.append(SearchResultCount);
+};
+
+const createSearchResultMessage = () => {
+  const searchResultMsg = new SearchResultMessage().getElement();
+  mainPoint.append(searchResultMsg);
+};
+
+
+
 createHeader(films);
 createMenu(films);
 const filmsContainer = document.querySelector(`.films-list__container`);
 const pageController = new PageController(filmsContainer, films);
 pageController.init();
 createFooter(films.length);
+createSearchResult();
+createSearchResultMessage();
