@@ -1,7 +1,7 @@
 import {createElement} from '../../utils.js';
 import {AbstractComponent} from "../abstract-component";
 
-export class User extends AbstractComponent{
+export class User extends AbstractComponent {
   constructor() {
     super();
   }
@@ -31,6 +31,8 @@ export class User extends AbstractComponent{
       return `movie buff`;
     } else if (watchedFilms > 10) {
       return `fun`;
-    } else return `novice`
+    } else {
+      return `novice`;
+    }
   }
 }

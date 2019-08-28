@@ -1,4 +1,3 @@
-import {createElement} from '../../utils.js';
 import {AbstractComponent} from "../abstract-component";
 
 export class SearchResultPanel extends AbstractComponent {

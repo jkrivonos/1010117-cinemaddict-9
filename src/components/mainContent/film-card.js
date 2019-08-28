@@ -1,8 +1,6 @@
-import {createElement} from '../../utils.js';
-import {FilmCardDetails} from './film-card-details';
 import {AbstractComponent} from "../abstract-component";
 
-export class FilmCard extends AbstractComponent{
+export class FilmCard extends AbstractComponent {
   constructor({title = ``, image = ``, rating = ``, year = ``, duration = ``, genre = ``, description = ``, comments = ``, director = ``, writers = ``, actors = ``, releaseDate = ``, runtime = ``, country = ``}) {
     super();
     this._title = title;
@@ -20,38 +18,8 @@ export class FilmCard extends AbstractComponent{
     this._runtime = runtime;
     this._country = country;
   }
-  //
-  // showFullInformation() {
-  //   const fullFilmInfo = new FilmCardDetails({
-  //     title: this._title,
-  //     image: this._image,
-  //     rating: this._rating,
-  //     year: this._year,
-  //     duration: this._duration,
-  //     genre: this._genre,
-  //     description: this._description,
-  //     comments: this._comments,
-  //     director: this._director,
-  //     writers: this._writers,
-  //     actors: this._actors,
-  //     releaseDate: this._releaseDate,
-  //     runtime: this._runtime,
-  //     country: this._country
-  //   }).getElement();
-  //
-  //   document.getElementById(`main`).append(fullFilmInfo);
-  // }
 
-  // getElement() {
-    // if (!this._element) {
-    //   this._element = createElement(this.getTemplate());
-      // this._element.addEventListener(`click`, () => this.showFullInformation());
-
-    // }
-    // return this._element;
-  // }
-
-  removeElement(){
+  removeElement() {
     if (this._element) {
       this._element = null;
     }
