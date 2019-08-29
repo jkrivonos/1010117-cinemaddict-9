@@ -39,8 +39,6 @@ const createSearchResultMessage = () => {
   mainPoint.append(searchResultMsg);
 };
 
-
-
 createHeader(films);
 createMenu(films);
 const filmsContainer = document.querySelector(`.films-list__container`);

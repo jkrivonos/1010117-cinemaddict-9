@@ -1,4 +1,3 @@
-import {FilmsList} from '../components/mainContent/films-list.js';
 import {FilmCard} from '../components/mainContent/film-card.js';
 import {FilmCardDetails} from '../components/mainContent/film-card-details.js';
 import {Wrapper} from '../components/mainContent/films-wrapper';
@@ -11,109 +10,100 @@ const SORTED_FILMS_AMOUNT = 2;
 
 export class PageController {
   constructor(container, films) {
-    // this._container = container;
     this._films = films;
-    this._filmsList = new FilmsList();
     this._sortingMenu = new SortingMenu();
     this._wrapper = new Wrapper();
     this._showMoreBtn = new ShowMoreButton();
+    this._startIndexFilmElement = 0;
   }
 
   init() {
     render(document.getElementById(`main`), this._sortingMenu.getElement(), `beforeend`);
     render(document.getElementById(`main`), this._wrapper.getElement(), `beforeend`);
     this._sortingMenu.getElement().addEventListener(`click`, (evt) => this._onSortLinkClick(evt));
-    render(document.querySelector(`.films-list`), this._showMoreBtn.getElement(), `beforeend`);
-
-    this._showMoreBtn.getElement().addEventListener(`click`, (evt) => this._addFilmCards(this._films));
-    this._renderFilm(this._films);
+    this._renderFirstLineWithFilmsAndShowMoreButton(this._films);
+    this._renderSortedFilms();
   }
 
-  _renderFilm(films) {
-    const onEscKeyDown = () => {
-      const detailCardElement = document.querySelector(`.film-details`);
-      if (detailCardElement) {
-        detailCardElement.remove();
-      }
-    };
+  _getSortedFilmCardElements(films, sortingKey) {
+    let copyFilms = films.slice();
+    const sortedTopFilms = copyFilms.sort((a, b) => b[sortingKey] - a[sortingKey]);
+    const sortedFilmCardElements = [];
+    for (let i = 0; i < SORTED_FILMS_AMOUNT; i++) {
+      let filmCardElement = new FilmCard(sortedTopFilms[i]).getElement();
+      filmCardElement.addEventListener(`click`, () => this._showFullInformation(sortedTopFilms[i]));
+      sortedFilmCardElements.push(filmCardElement);
+    }
+    return sortedFilmCardElements;
+  };
 
-    const showFullInformation = (film) => {
-      const fullFilmInfo = new FilmCardDetails(film).getElement();
-      mainNode.append(fullFilmInfo);
-      const closeFilmCard = document.querySelector(`.film-details__close-btn`);
-      closeFilmCard.addEventListener(`click`, onEscKeyDown);
-      document.addEventListener(`keydown`, onEscKeyDown);
-      const commentArea = document.querySelector(`textarea`);
-      commentArea.addEventListener(`focus`, () => {
-        document.removeEventListener(`keydown`, onEscKeyDown);
-      });
-      commentArea.addEventListener(`blur`, () => {
-        document.addEventListener(`keydown`, onEscKeyDown);
-      });
-    };
+  _showFullInformation(film) {
+    const fullFilmInfo = new FilmCardDetails(film).getElement();
+    document.getElementById(`main`).append(fullFilmInfo);
+    const closeFilmCard = document.querySelector(`.film-details__close-btn`);
+    closeFilmCard.addEventListener(`click`, this._onEscKeyDown);
+    document.addEventListener(`keydown`, this._onEscKeyDown);
+    const commentArea = document.querySelector(`textarea`);
+    commentArea.addEventListener(`focus`, () => {
+      document.removeEventListener(`keydown`, this._onEscKeyDown);
+    });
+    commentArea.addEventListener(`blur`, () => {
+      document.addEventListener(`keydown`, this._onEscKeyDown);
+    });
+  };
 
-    // const addFilmCards = () => {
-    //   const filmCardElementsForNextRow = [];
-    //   const finalIndexFilmElement = (startIndexFilmElement + FILMS_COUNT_IN_ROW < this._films.length) ? startIndexFilmElement + FILMS_COUNT_IN_ROW : this._films.length;
-    //   for (let i = startIndexFilmElement; i < finalIndexFilmElement; i++) {
-    //     let filmCardElement = new FilmCard(this._films[i]).getElement();
-    //     filmCardElement.addEventListener(`click`, () => showFullInformation(this._films[i]));
-    //     filmCardElementsForNextRow.push(filmCardElement);
-    //   }
-    //   document.querySelector(`.films-list__container`).append(...filmCardElementsForNextRow);
-    //   if (finalIndexFilmElement === this._films.length) {
-    //     document.getElementById(`showMore`).classList.add(`disabledButton`);
-    //   } else {
-    //     startIndexFilmElement += FILMS_COUNT_IN_ROW;
-    //   }
-    // };
+  _onEscKeyDown() {
+    const detailCardElement = document.querySelector(`.film-details`);
+    if (detailCardElement) {
+      detailCardElement.remove();
+    }
+  };
 
-    const getSortedFilmCardElements = (films, sortingKey) => {
-      let copyFilms = films.slice();
-      const sortedTopFilms = copyFilms.sort((a, b) => b[sortingKey] - a[sortingKey]);
-      const sortedFilmCardElements = [];
-      for (let i = 0; i < SORTED_FILMS_AMOUNT; i++) {
-        let filmCardElement = new FilmCard(sortedTopFilms[i]).getElement();
-        filmCardElement.addEventListener(`click`, () => showFullInformation(sortedTopFilms[i]));
-        sortedFilmCardElements.push(filmCardElement);
-      }
-      return sortedFilmCardElements;
-    };
-    let startIndexFilmElement = 0;
-    // функция основного рендеринга фильмов
-    const createFirstView = (films) => {
-      let startIndexFilmElement = 0;
-      const to = (startIndexFilmElement + FILMS_COUNT_IN_ROW < films.length) ? startIndexFilmElement + FILMS_COUNT_IN_ROW : films.length;
-      const filmCardElementsForFirstRow = [];
-      for (let i = startIndexFilmElement; i < to; i++) {
+  _renderFirstLineWithFilmsAndShowMoreButton(films) {
+    const addNextLineWithFilms= (films) => {
+      const filmCardElementsForNextRow = [];
+      const finalIndexFilmElement = (this._startIndexFilmElement + FILMS_COUNT_IN_ROW < films.length) ? this._startIndexFilmElement + FILMS_COUNT_IN_ROW : films.length;
+      for (let i = this._startIndexFilmElement; i < finalIndexFilmElement; i++) {
         let filmCardElement = new FilmCard(films[i]).getElement();
-        filmCardElement.addEventListener(`click`, () => showFullInformation(films[i]));
+        filmCardElement.addEventListener(`click`, () => this._showFullInformation(films[i]));
+        filmCardElementsForNextRow.push(filmCardElement);
+      }
+      if (finalIndexFilmElement === films.length) {
+        this._showMoreBtn.getElement().classList.add(`disabledButton`);
+      } else {
+        this._startIndexFilmElement += FILMS_COUNT_IN_ROW;
+      }
+      document.querySelector(`.films-list__container`).append(...filmCardElementsForNextRow);
+    }
+
+    const createFirstLineFilms = (films) => {
+      this._startIndexFilmElement = 0;
+      const to = (this._startIndexFilmElement + FILMS_COUNT_IN_ROW < films.length) ? this._startIndexFilmElement + FILMS_COUNT_IN_ROW : films.length;
+      const filmCardElementsForFirstRow = [];
+      for (let i = this._startIndexFilmElement; i < to; i++) {
+        let filmCardElement = new FilmCard(films[i]).getElement();
+        filmCardElement.addEventListener(`click`, () => this._showFullInformation(films[i]));
         filmCardElementsForFirstRow.push(filmCardElement);
       }
       document.querySelector(`.films-list__container`).append(...filmCardElementsForFirstRow);
+      this._startIndexFilmElement += FILMS_COUNT_IN_ROW;
     };
-    startIndexFilmElement += FILMS_COUNT_IN_ROW;
 
-    // функция навешивания обработчика добавления фильмов по кнопке show more
-    // const setHandlerToShowMoreButton = () => {
-    //   const showMoreBtn = document.getElementById(`showMore`);
-    //   showMoreBtn.addEventListener(`click`, addFilmCards(this._films));
-    // };
+    createFirstLineFilms(films);
+    this._showMoreBtn.getElement().classList.remove(`disabledButton`);
+    render(document.querySelector(`.films-list`), this._showMoreBtn.getElement(), `beforeend`);
+    this._showMoreBtn.getElement().addEventListener(`click`, (evt) => addNextLineWithFilms(films));
+  }
 
-    const sortedTopRatedFilmCardElements = getSortedFilmCardElements(this._films, `rating`);
+  _renderSortedFilms() {
+    const sortedTopRatedFilmCardElements = this._getSortedFilmCardElements(this._films, `rating`);
     document.getElementById(`toprated`).append(...sortedTopRatedFilmCardElements);
-    const sortedCommentedFilmCardElements = getSortedFilmCardElements(this._films, `comments`);
+    const sortedCommentedFilmCardElements = this._getSortedFilmCardElements(this._films, `comments`);
     document.getElementById(`commented`).append(...sortedCommentedFilmCardElements);
-
-
-    const mainNode = document.getElementById(`main`);
-    createFirstView(films);
-    // setHandlerToShowMoreButton();
   }
 
   _onSortLinkClick(evt) {
     evt.preventDefault();
-
     if (evt.target.tagName !== `A`) {
       return;
     }
@@ -121,40 +111,16 @@ export class PageController {
     switch (evt.target.dataset.sortType) {
       case `date-up`:
         const sortedByDateUpTasks = this._films.slice().sort((a, b) => a.year - b.year);
-        this._renderFilm(sortedByDateUpTasks);
+        this._renderFirstLineWithFilmsAndShowMoreButton(sortedByDateUpTasks);
         break;
       case `rating`:
         const sortedByDateDownTasks = this._films.slice().sort((a, b) => b.rating - a.rating);
-        this._renderFilm(sortedByDateDownTasks);
+        this._renderFirstLineWithFilmsAndShowMoreButton(sortedByDateDownTasks);
         break;
       case `default`:
-        this._renderFilm(this._films);
+        this._renderFirstLineWithFilmsAndShowMoreButton(this._films);
         break;
     }
-  }
-
-  _addFilmCards(films) {
-    const filmCardElementsForNextRow = [];
-    let startIndexFilmElement=0;
-
-    const finalIndexFilmElement = (startIndexFilmElement + FILMS_COUNT_IN_ROW < films.length) ? startIndexFilmElement + FILMS_COUNT_IN_ROW : films.length;
-    for (let i = startIndexFilmElement; i < finalIndexFilmElement; i++) {
-      let filmCardElement = new FilmCard(films[i]).getElement();
-      filmCardElement.addEventListener(`click`, () => this.showFullInformation(films[i]));
-      filmCardElementsForNextRow.push(filmCardElement);
-console.log(`finalIndexFilmElement`, finalIndexFilmElement);
-console.log(`films.length`, films.length);
-
-      if (finalIndexFilmElement === films.length) {
-        document.getElementById(`showMore`).classList.add(`disabledButton`);
-      } else {
-        startIndexFilmElement += FILMS_COUNT_IN_ROW;
-      }
-
-    }
-    document.querySelector(`.films-list__container`).append(...filmCardElementsForNextRow);
-
-
   }
 }
 
