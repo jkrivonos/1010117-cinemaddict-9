@@ -1,5 +1,5 @@
 import {getDataFilm} from '../src/data.js';
-import {PageController} from './controllers/page-controller.js';
+import {PageController} from './controllers/films-creation-controller.js';
 import {User} from './components/searchAndUserPanel/user-panel.js';
 import {Search} from './components/searchAndUserPanel/search-panel.js';
 import {Menu} from './components/mainContent/menu-panel.js';
@@ -38,8 +38,6 @@ const createSearchResultMessage = () => {
   const searchResultMsg = new SearchResultMessage().getElement();
   mainPoint.append(searchResultMsg);
 };
-
-
 
 createHeader(films);
 createMenu(films);
