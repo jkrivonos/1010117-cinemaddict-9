@@ -1,7 +1,7 @@
-import {createElement} from '../utils.js';
+import {createElement} from '../../utils.js';
 
 export class FilmCardDetails {
-  constructor({image = ``, title = ``, rating = ``, director = ``, writers = ``, actors = ``, releaseDate = ``, runtime = ``, country = ``, genres = ``, description = ``}) {
+  constructor({image = ``, title = ``, rating = ``, director = ``, writers = ``, actors = ``, releaseDate = ``, runtime = ``, country = ``, genre = ``, description = ``}) {
     this._image = image;
     this._title = title;
     this._rating = rating;
@@ -11,16 +11,31 @@ export class FilmCardDetails {
     this._releaseDate = releaseDate;
     this._runtime = runtime;
     this._country = country;
-    this._genres = genres;
+    this._genre = genre;
     this._description = description;
     this._element = null;
+  }
+
+  onEscKeyDown() {
+    const detailCardElement = document.querySelector(`.film-details`);
+    if (detailCardElement) {
+      detailCardElement.remove();
+    }
   }
 
   getElement() {
     if (!this._element) {
       this._element = createElement(this.getTemplate());
       const closeFilmCard = this._element.querySelector(`.film-details__close-btn`);
-      closeFilmCard.addEventListener(`click`, () => this.unrender(this._element));
+      closeFilmCard.addEventListener(`click`, this.onEscKeyDown);
+      document.addEventListener(`keydown`, this.onEscKeyDown);
+      const commentArea = this._element.querySelector(`textarea`);
+      commentArea.addEventListener(`focus`, () => {
+        document.removeEventListener(`keydown`, this.onEscKeyDown);
+      });
+      commentArea.addEventListener(`blur`, () => {
+        document.addEventListener(`keydown`, this.onEscKeyDown);
+      });
     }
     return this._element;
   }
@@ -79,9 +94,9 @@ export class FilmCardDetails {
             <tr class="film-details__row">
               <td class="film-details__term">Genres</td>
               <td class="film-details__cell">
-                <span class="film-details__genre">${this._genres}</span>
-                <span class="film-details__genre">${this._genres}</span>
-                <span class="film-details__genre">${this._genres}</span></td>
+                <span class="film-details__genre">${this._genre}</span>
+                <span class="film-details__genre">${this._genre}</span>
+                <span class="film-details__genre">${this._genre}</span></td>
             </tr>
           </table>
 
@@ -195,11 +210,5 @@ export class FilmCardDetails {
     </div>
   </form>
 </section`;
-  }
-
-  unrender(element) {
-    if (element) {
-      element.remove();
-    }
   }
 }

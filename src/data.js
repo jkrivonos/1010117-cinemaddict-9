@@ -1,4 +1,4 @@
-const getRandomArbitrary = (min, max) => Math.round(Math.random() * (max - min) + min);
+const getRandomFromRange = (min, max) => Math.round(Math.random() * (max - min) + min);
 
 export const getDataFilm = () => ({
   title: [`The Dance of Life`,
@@ -17,9 +17,9 @@ export const getDataFilm = () => ({
     `Red Planet`,
     `Army of Darkness`
   ][Math.floor(Math.random() * 15)],
-  rating: getRandomArbitrary(1, 9) + 0.2,
-  year: getRandomArbitrary(1900, 2019),
-  duration: getRandomArbitrary(25, 180),
+  rating: getRandomFromRange(1, 9) + 0.2,
+  year: getRandomFromRange(1900, 2019),
+  duration: getRandomFromRange(25, 180),
   genre: [`drama`,
     `melodrama`,
     `horror`,
@@ -34,7 +34,7 @@ export const getDataFilm = () => ({
     `images/posters/the-dance-of-life.jpg`
   ][Math.floor(Math.random() * 5)],
   description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget.`,
-  comments: getRandomArbitrary(0, 155),
+  comments: getRandomFromRange(0, 155),
   isWatchedList: Boolean(Math.round(Math.random())),
   isHistory: Boolean(Math.round(Math.random())),
   isFavorite: Boolean(Math.round(Math.random()))
