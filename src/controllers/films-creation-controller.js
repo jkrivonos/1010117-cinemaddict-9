@@ -9,7 +9,9 @@ const FILMS_COUNT_IN_ROW = 5;
 const SORTED_FILMS_AMOUNT = 2;
 
 export class PageController {
-  constructor(container, films) {
+  constructor(mainPoint, films) {
+    this._mainPoint = mainPoint,
+    // this._container = container;
     this._films = films;
     this._sortingMenu = new SortingMenu();
     this._wrapper = new Wrapper();
@@ -17,9 +19,15 @@ export class PageController {
     this._startIndexFilmElement = 0;
   }
 
+
   init() {
-    render(document.getElementById(`main`), this._sortingMenu.getElement(), `beforeend`);
-    render(document.getElementById(`main`), this._wrapper.getElement(), `beforeend`);
+
+    console.log(`mainPoint`, this._mainPoint);
+console.log(`this._wrapper`, this._wrapper);
+    render(this._mainPoint, this._sortingMenu.getElement(), `beforeend`);
+    console.log(`1`);
+    render(this._mainPoint, this._wrapper.getElement(), `beforeend`);
+    console.log(2);
     this._sortingMenu.getElement().addEventListener(`click`, (evt) => this._onSortLinkClick(evt));
     this._renderFirstLineWithFilmsAndShowMoreButton(this._films);
     this._renderSortedFilms();
@@ -27,6 +35,7 @@ export class PageController {
 
   _getSortedFilmCardElements(films, sortingKey) {
     let copyFilms = films.slice();
+   
     const sortedTopFilms = copyFilms.sort((a, b) => b[sortingKey] - a[sortingKey]);
     const sortedFilmCardElements = [];
     for (let i = 0; i < SORTED_FILMS_AMOUNT; i++) {
@@ -39,21 +48,25 @@ export class PageController {
 
   _showFullInformation(film) {
     const fullFilmInfo = new FilmCardDetails(film).getElement();
-    document.getElementById(`main`).append(fullFilmInfo);
-    const closeFilmCard = document.querySelector(`.film-details__close-btn`);
-    closeFilmCard.addEventListener(`click`, this._onEscKeyDown);
-    document.addEventListener(`keydown`, this._onEscKeyDown);
-    const commentArea = document.querySelector(`textarea`);
+    this._mainPoint.append(fullFilmInfo);
+
+    const closeFilmCard = fullFilmInfo.querySelector(`.film-details__close-btn`);
+    closeFilmCard.addEventListener(`click`, this.onEscKeyDown);
+    this._mainPoint.addEventListener(`keydown`, this.onEscKeyDown);
+
+    const commentArea = fullFilmInfo.querySelector(`textarea`);
     commentArea.addEventListener(`focus`, () => {
-      document.removeEventListener(`keydown`, this._onEscKeyDown);
+      this._mainPoint.removeEventListener(`keydown`, this.onEscKeyDown);
     });
     commentArea.addEventListener(`blur`, () => {
-      document.addEventListener(`keydown`, this._onEscKeyDown);
+      this._mainPoint.addEventListener(`keydown`, this.onEscKeyDown);
     });
   };
 
-  _onEscKeyDown() {
-    const detailCardElement = document.querySelector(`.film-details`);
+  onEscKeyDown() {
+    console.log(this._mainPoint);
+    console.log(this._wrapper);;
+    const detailCardElement = this._mainPoint.querySelector(`.film-details`);
     if (detailCardElement) {
       detailCardElement.remove();
     }
@@ -73,7 +86,7 @@ export class PageController {
       } else {
         this._startIndexFilmElement += FILMS_COUNT_IN_ROW;
       }
-      document.querySelector(`.films-list__container`).append(...filmCardElementsForNextRow);
+      this._wrapper.getElement().querySelector(`.films-list__container`).append(...filmCardElementsForNextRow);
     }
 
     const createFirstLineFilms = (films) => {
@@ -85,21 +98,23 @@ export class PageController {
         filmCardElement.addEventListener(`click`, () => this._showFullInformation(films[i]));
         filmCardElementsForFirstRow.push(filmCardElement);
       }
-      document.querySelector(`.films-list__container`).append(...filmCardElementsForFirstRow);
+      this._wrapper.getElement().querySelector(`.films-list__container`).append(...filmCardElementsForFirstRow);
       this._startIndexFilmElement += FILMS_COUNT_IN_ROW;
     };
 
     createFirstLineFilms(films);
     this._showMoreBtn.getElement().classList.remove(`disabledButton`);
-    render(document.querySelector(`.films-list`), this._showMoreBtn.getElement(), `beforeend`);
+    
+    render(this._wrapper.getElement().querySelector(`.films-list`), this._showMoreBtn.getElement(), `beforeend`);
     this._showMoreBtn.getElement().addEventListener(`click`, (evt) => addNextLineWithFilms(films));
   }
 
   _renderSortedFilms() {
     const sortedTopRatedFilmCardElements = this._getSortedFilmCardElements(this._films, `rating`);
-    document.getElementById(`toprated`).append(...sortedTopRatedFilmCardElements);
+    this._wrapper.getElement().querySelector(`#toprated`).append(...sortedTopRatedFilmCardElements);
+    
     const sortedCommentedFilmCardElements = this._getSortedFilmCardElements(this._films, `comments`);
-    document.getElementById(`commented`).append(...sortedCommentedFilmCardElements);
+    this._wrapper.getElement().querySelector(`#commented`).append(...sortedCommentedFilmCardElements);
   }
 
   _onSortLinkClick(evt) {

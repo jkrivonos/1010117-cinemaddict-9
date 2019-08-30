@@ -41,8 +41,11 @@ const createSearchResultMessage = () => {
 
 createHeader(films);
 createMenu(films);
-const filmsContainer = document.querySelector(`.films-list__container`);
-const pageController = new PageController(filmsContainer, films);
+
+
+// const filmsContainer = document.querySelector(`.films-list__container`);
+
+const pageController = new PageController(mainPoint, films);
 pageController.init();
 createFooter(films.length);
 createSearchResult();
