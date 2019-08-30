@@ -5,11 +5,11 @@ export class Wrapper extends AbstractComponent {
     super();
   }
 
-  removeElement() {
-    if (this._element) {
-      this._element = null;
-    }
-  }
+  // removeElement() {
+  //   if (this._element) {
+  //     this._element = null;
+  //   }
+  // }
 
   getTemplate() {
     return `<section class="films">

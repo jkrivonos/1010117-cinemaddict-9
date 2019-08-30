@@ -21,13 +21,8 @@ export class PageController {
 
 
   init() {
-
-    console.log(`mainPoint`, this._mainPoint);
-console.log(`this._wrapper`, this._wrapper);
     render(this._mainPoint, this._sortingMenu.getElement(), `beforeend`);
-    console.log(`1`);
     render(this._mainPoint, this._wrapper.getElement(), `beforeend`);
-    console.log(2);
     this._sortingMenu.getElement().addEventListener(`click`, (evt) => this._onSortLinkClick(evt));
     this._renderFirstLineWithFilmsAndShowMoreButton(this._films);
     this._renderSortedFilms();
@@ -35,7 +30,7 @@ console.log(`this._wrapper`, this._wrapper);
 
   _getSortedFilmCardElements(films, sortingKey) {
     let copyFilms = films.slice();
-   
+
     const sortedTopFilms = copyFilms.sort((a, b) => b[sortingKey] - a[sortingKey]);
     const sortedFilmCardElements = [];
     for (let i = 0; i < SORTED_FILMS_AMOUNT; i++) {
@@ -51,22 +46,20 @@ console.log(`this._wrapper`, this._wrapper);
     this._mainPoint.append(fullFilmInfo);
 
     const closeFilmCard = fullFilmInfo.querySelector(`.film-details__close-btn`);
-    closeFilmCard.addEventListener(`click`, this.onEscKeyDown);
-    this._mainPoint.addEventListener(`keydown`, this.onEscKeyDown);
+    closeFilmCard.addEventListener(`click`, this._onEscKeyDown);
+    document.addEventListener(`keydown`, this._onEscKeyDown);
 
     const commentArea = fullFilmInfo.querySelector(`textarea`);
     commentArea.addEventListener(`focus`, () => {
-      this._mainPoint.removeEventListener(`keydown`, this.onEscKeyDown);
+      document.removeEventListener(`keydown`, this._onEscKeyDown);
     });
     commentArea.addEventListener(`blur`, () => {
-      this._mainPoint.addEventListener(`keydown`, this.onEscKeyDown);
+      document.addEventListener(`keydown`, this._onEscKeyDown);
     });
   };
 
-  onEscKeyDown() {
-    console.log(this._mainPoint);
-    console.log(this._wrapper);;
-    const detailCardElement = this._mainPoint.querySelector(`.film-details`);
+  _onEscKeyDown() {
+    const detailCardElement = document.querySelector(`.film-details`);
     if (detailCardElement) {
       detailCardElement.remove();
     }
@@ -87,7 +80,7 @@ console.log(`this._wrapper`, this._wrapper);
         this._startIndexFilmElement += FILMS_COUNT_IN_ROW;
       }
       this._wrapper.getElement().querySelector(`.films-list__container`).append(...filmCardElementsForNextRow);
-    }
+    };
 
     const createFirstLineFilms = (films) => {
       this._startIndexFilmElement = 0;
@@ -104,7 +97,7 @@ console.log(`this._wrapper`, this._wrapper);
 
     createFirstLineFilms(films);
     this._showMoreBtn.getElement().classList.remove(`disabledButton`);
-    
+
     render(this._wrapper.getElement().querySelector(`.films-list`), this._showMoreBtn.getElement(), `beforeend`);
     this._showMoreBtn.getElement().addEventListener(`click`, (evt) => addNextLineWithFilms(films));
   }
@@ -112,7 +105,7 @@ console.log(`this._wrapper`, this._wrapper);
   _renderSortedFilms() {
     const sortedTopRatedFilmCardElements = this._getSortedFilmCardElements(this._films, `rating`);
     this._wrapper.getElement().querySelector(`#toprated`).append(...sortedTopRatedFilmCardElements);
-    
+
     const sortedCommentedFilmCardElements = this._getSortedFilmCardElements(this._films, `comments`);
     this._wrapper.getElement().querySelector(`#commented`).append(...sortedCommentedFilmCardElements);
   }
@@ -135,6 +128,11 @@ console.log(`this._wrapper`, this._wrapper);
       case `default`:
         this._renderFirstLineWithFilmsAndShowMoreButton(this._films);
         break;
+    }
+  }
+  removeElement() {
+    if (this._element) {
+      this._element = null;
     }
   }
 }
