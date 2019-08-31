@@ -1,8 +1,10 @@
-import FilmCardDetails from '../components/mainContent/film-card-details'
+import {FilmCardDetails} from '../components/mainContent/film-card-details.js'
+
 export class MovieController {
 
   constructor(container, filmData, onDataChange, onChangeView) {
-    this._container = container; /*элемент, в который конструктор будет аппендить карточки. */
+    this._container = container; /*элемент, в который конструктор будет аппендить карточки. .film-details */
+    this._filmData = filmData;
   }
   /*В init должен переехать код, который отвечает за показ
   попапа с подробной информацией о фильме и его закрытие.*/
@@ -11,8 +13,10 @@ export class MovieController {
   }
 
   _showFullInformation() {
-    const fullFilmInfo = new FilmCardDetails(film).getElement();
-    this._mainPoint.append(fullFilmInfo);
+    document.body.append(this._container);
+
+    const fullFilmInfo = new FilmCardDetails(this._filmData).getElement();
+    this._container.append(fullFilmInfo);
 
     const closeFilmCard = fullFilmInfo.querySelector(`.film-details__close-btn`);
     closeFilmCard.addEventListener(`click`, this._onEscKeyDown);

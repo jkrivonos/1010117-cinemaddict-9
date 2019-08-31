@@ -1,10 +1,10 @@
 import {FilmCard} from '../components/mainContent/film-card.js';
-import {FilmCardDetails} from '../components/mainContent/film-card-details.js';
 import {Wrapper} from '../components/mainContent/films-wrapper';
 import {SortingMenu} from '../components/mainContent/sorting-panel.js';
 import {ShowMoreButton} from '../components/mainContent/show-more-button.js';
-import {FilmDetailsWrapper} from '../components/mainContent/film-details-wrapper.js';
 import {render} from '../utils.js';
+import {MovieController} from '../controllers/movie-controller.js';
+import {FilmDetailsWrapper} from '../components/mainContent/film-details-wrapper.js'
 
 const FILMS_COUNT_IN_ROW = 5;
 const SORTED_FILMS_AMOUNT = 2;
@@ -17,8 +17,8 @@ export class PageController {
     this._wrapper = new Wrapper();
     this._showMoreBtn = new ShowMoreButton();
     this._startIndexFilmElement = 0;
+    this._filmDetailsWrap = new FilmDetailsWrapper();
   }
-
 
   init() {
     render(this._mainPoint, this._sortingMenu.getElement(), `beforeend`);
@@ -35,51 +35,32 @@ export class PageController {
   }
 
   _getSortedFilmCardElements(films, sortingKey) {
+    const filmDetailsWrap = this._filmDetailsWrap.getElement();
+
     let copyFilms = films.slice();
 
     const sortedTopFilms = copyFilms.sort((a, b) => b[sortingKey] - a[sortingKey]);
     const sortedFilmCardElements = [];
     for (let i = 0; i < SORTED_FILMS_AMOUNT; i++) {
       let filmCardElement = new FilmCard(sortedTopFilms[i]).getElement();
-      filmCardElement.addEventListener(`click`, () => this._showFullInformation(sortedTopFilms[i]));
+      const movieController = new MovieController(filmDetailsWrap, films[i]);
+      filmCardElement.addEventListener(`click`, () => movieController.init(sortedTopFilms[i]));
       sortedFilmCardElements.push(filmCardElement);
     }
     return sortedFilmCardElements;
   }
 
-  _showFullInformation(film) {
-    const filmDetailsWrap = new FilmDetailsWrapper().getElement();
-    document.body.append(filmDetailsWrap);
-    const fullFilmInfo = new FilmCardDetails(film).getElement();
-    filmDetailsWrap.append(fullFilmInfo);
-
-    const closeFilmCard = fullFilmInfo.querySelector(`.film-details__close-btn`);
-    closeFilmCard.addEventListener(`click`, this._onEscKeyDown);
-    document.addEventListener(`keydown`, this._onEscKeyDown);
-
-    const commentArea = fullFilmInfo.querySelector(`textarea`);
-    commentArea.addEventListener(`focus`, () => {
-      document.removeEventListener(`keydown`, this._onEscKeyDown);
-    });
-    commentArea.addEventListener(`blur`, () => {
-      document.addEventListener(`keydown`, this._onEscKeyDown);
-    });
-  }
-
-  _onEscKeyDown() {
-    const detailCardElement = document.querySelector(`.film-details`);
-    if (detailCardElement) {
-      detailCardElement.remove();
-    }
-  }
-
   _renderFirstLineWithFilmsAndShowMoreButton(filmsContainer) {
+    const filmDetailsWrap = this._filmDetailsWrap.getElement();
+
     const addNextLineWithFilms = (filmsContainer) => {
       const filmCardElementsForNextRow = [];
       const finalIndexFilmElement = (this._startIndexFilmElement + FILMS_COUNT_IN_ROW < filmsContainer.length) ? this._startIndexFilmElement + FILMS_COUNT_IN_ROW : filmsContainer.length;
       for (let i = this._startIndexFilmElement; i < finalIndexFilmElement; i++) {
         let filmCardElement = new FilmCard(filmsContainer[i]).getElement();
-        filmCardElement.addEventListener(`click`, () => this._showFullInformation(filmsContainer[i]));
+        const movieController = new MovieController(filmDetailsWrap, filmsContainer[i]);
+        filmCardElement.addEventListener(`click`, () => movieController.init());
+
         filmCardElementsForNextRow.push(filmCardElement);
       }
       if (finalIndexFilmElement === filmsContainer.length) {
@@ -91,12 +72,14 @@ export class PageController {
     };
 
     const createFirstLineFilms = (films) => {
+
       this._startIndexFilmElement = 0;
       const to = (this._startIndexFilmElement + FILMS_COUNT_IN_ROW < films.length) ? this._startIndexFilmElement + FILMS_COUNT_IN_ROW : films.length;
       const filmCardElementsForFirstRow = [];
       for (let i = this._startIndexFilmElement; i < to; i++) {
-        let filmCardElement = new FilmCard(films[i]).getElement();
-        filmCardElement.addEventListener(`click`, () => this._showFullInformation(films[i]));
+        let filmCardElement = new FilmCard(filmsContainer[i]).getElement();
+        const movieController = new MovieController(filmDetailsWrap, filmsContainer[i]);
+        filmCardElement.addEventListener(`click`, () => movieController.init());
         filmCardElementsForFirstRow.push(filmCardElement);
       }
       this._wrapper.getElement().querySelector(`.films-list__container`).append(...filmCardElementsForFirstRow);

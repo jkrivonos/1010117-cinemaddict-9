@@ -41,9 +41,6 @@ const createSearchResultMessage = () => {
 
 createHeader(films);
 createMenu(films);
-
-
-
 const pageController = new PageController(mainPoint, films);
 pageController.init();
 createFooter(films.length);
