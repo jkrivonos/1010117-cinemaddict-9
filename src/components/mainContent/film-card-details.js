@@ -2,7 +2,7 @@ import {createElement} from '../../utils.js';
 import {AbstractComponent} from "../abstract-component";
 
 export class FilmCardDetails extends AbstractComponent {
-  constructor({image = ``, title = ``, rating = ``, director = ``, writers = ``, actors = ``, releaseDate = ``, runtime = ``, country = ``, genre = ``, description = ``}) {
+  constructor({image = ``, title = ``, rating = ``, director = ``, writers = ``, actors = ``, releaseDate = ``, runtime = ``, country = ``, genre = ``, description = ``, comments = ``}) {
     super();
     this._image = image;
     this._title = title;
@@ -15,6 +15,7 @@ export class FilmCardDetails extends AbstractComponent {
     this._country = country;
     this._genre = genre;
     this._description = description;
+    this._comments = comments;
   }
 
   getElement() {

@@ -79,6 +79,7 @@ export class PageController {
       for (let i = this._startIndexFilmElement; i < to; i++) {
         let filmCardElement = new FilmCard(filmsContainer[i]).getElement();
         const movieController = new MovieController(filmDetailsWrap, filmsContainer[i]);
+
         filmCardElement.addEventListener(`click`, () => movieController.init());
         filmCardElementsForFirstRow.push(filmCardElement);
       }
