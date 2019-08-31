@@ -45,30 +45,30 @@ export class PageController {
     }
     return sortedFilmCardElements;
   }
-
-  _showFullInformation(film) {
-    const fullFilmInfo = new FilmCardDetails(film).getElement();
-    this._mainPoint.append(fullFilmInfo);
-
-    const closeFilmCard = fullFilmInfo.querySelector(`.film-details__close-btn`);
-    closeFilmCard.addEventListener(`click`, this._onEscKeyDown);
-    document.addEventListener(`keydown`, this._onEscKeyDown);
-
-    const commentArea = fullFilmInfo.querySelector(`textarea`);
-    commentArea.addEventListener(`focus`, () => {
-      document.removeEventListener(`keydown`, this._onEscKeyDown);
-    });
-    commentArea.addEventListener(`blur`, () => {
-      document.addEventListener(`keydown`, this._onEscKeyDown);
-    });
-  }
-
-  _onEscKeyDown() {
-    const detailCardElement = document.querySelector(`.film-details`);
-    if (detailCardElement) {
-      detailCardElement.remove();
-    }
-  }
+  //
+  // _showFullInformation(film) {
+  //   const fullFilmInfo = new FilmCardDetails(film).getElement();
+  //   this._mainPoint.append(fullFilmInfo);
+  //
+  //   const closeFilmCard = fullFilmInfo.querySelector(`.film-details__close-btn`);
+  //   closeFilmCard.addEventListener(`click`, this._onEscKeyDown);
+  //   document.addEventListener(`keydown`, this._onEscKeyDown);
+  //
+  //   const commentArea = fullFilmInfo.querySelector(`textarea`);
+  //   commentArea.addEventListener(`focus`, () => {
+  //     document.removeEventListener(`keydown`, this._onEscKeyDown);
+  //   });
+  //   commentArea.addEventListener(`blur`, () => {
+  //     document.addEventListener(`keydown`, this._onEscKeyDown);
+  //   });
+  // }
+  //
+  // _onEscKeyDown() {
+  //   const detailCardElement = document.querySelector(`.film-details`);
+  //   if (detailCardElement) {
+  //     detailCardElement.remove();
+  //   }
+  // }
 
   _renderFirstLineWithFilmsAndShowMoreButton(filmsContainer) {
     const addNextLineWithFilms = (filmsContainer) => {
