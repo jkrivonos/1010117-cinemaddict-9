@@ -1,8 +1,9 @@
 import {createElement} from '../../utils.js';
+import {AbstractComponent} from "../abstract-component";
 
-export class User {
+export class User extends AbstractComponent {
   constructor() {
-    this._element = null;
+    super();
   }
 
   getElement(watchedFilms) {
@@ -10,12 +11,6 @@ export class User {
       this._element = createElement(this.getTemplate(watchedFilms));
     }
     return this._element;
-  }
-
-  removeElement() {
-    if (this._element) {
-      this._element = null;
-    }
   }
 
   getTemplate(watchedFilms) {
@@ -30,6 +25,8 @@ export class User {
       return `movie buff`;
     } else if (watchedFilms > 10) {
       return `fun`;
-    } else return `novice`
+    } else {
+      return `novice`;
+    }
   }
 }

@@ -1,21 +1,8 @@
-import {createElement} from '../../utils.js';
+import {AbstractComponent} from "../abstract-component";
 
-export class SearchResultMessage {
+export class SearchResultMessage extends AbstractComponent {
   constructor() {
-    this._element = null;
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-    return this._element;
-  }
-
-  removeElement() {
-    if (this._element) {
-      this._element = null;
-    }
+    super();
   }
 
   getTemplate() {

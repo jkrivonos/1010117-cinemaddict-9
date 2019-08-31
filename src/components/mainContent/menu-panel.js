@@ -1,8 +1,9 @@
 import {createElement} from '../../utils.js';
+import {AbstractComponent} from "../abstract-component";
 
-export class Menu {
+export class Menu extends AbstractComponent {
   constructor() {
-    this._element = null;
+    super();
   }
 
   getElement(watchlistFilms, historyFilms, favoritesFilms) {
@@ -10,12 +11,6 @@ export class Menu {
       this._element = createElement(this.getTemplate(watchlistFilms, historyFilms, favoritesFilms));
     }
     return this._element;
-  }
-
-  removeElement() {
-    if (this._element) {
-      this._element = null;
-    }
   }
 
   getTemplate(watchlistFilms, historyFilms, favoritesFilms) {
