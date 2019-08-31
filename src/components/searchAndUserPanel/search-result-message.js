@@ -5,12 +5,6 @@ export class SearchResultMessage extends AbstractComponent {
     super();
   }
 
-  removeElement() {
-    if (this._element) {
-      this._element = null;
-    }
-  }
-
   getTemplate() {
     return `<div class="no-result">
         There is no movies for your request.

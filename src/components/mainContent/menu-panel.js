@@ -13,12 +13,6 @@ export class Menu extends AbstractComponent {
     return this._element;
   }
 
-  removeElement() {
-    if (this._element) {
-      this._element = null;
-    }
-  }
-
   getTemplate(watchlistFilms, historyFilms, favoritesFilms) {
     return `<nav class="main-navigation">
     <a href="#all" class="main-navigation__item main-navigation__item--active">All movies</a>

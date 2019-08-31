@@ -5,12 +5,6 @@ export class Search extends AbstractComponent {
     super();
   }
 
-  removeElement() {
-    if (this._element) {
-      this._element = null;
-    }
-  }
-
   getTemplate() {
     return `<form class="header__search search">
     <input type="text" name="search" class="search__field" placeholder="Search movies">

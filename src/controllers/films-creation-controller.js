@@ -10,8 +10,7 @@ const SORTED_FILMS_AMOUNT = 2;
 
 export class PageController {
   constructor(mainPoint, films) {
-    this._mainPoint = mainPoint,
-    // this._container = container;
+    this._mainPoint = mainPoint;
     this._films = films;
     this._sortingMenu = new SortingMenu();
     this._wrapper = new Wrapper();
@@ -28,6 +27,12 @@ export class PageController {
     this._renderSortedFilms();
   }
 
+  removeElement() {
+    if (this._element) {
+      this._element = null;
+    }
+  }
+
   _getSortedFilmCardElements(films, sortingKey) {
     let copyFilms = films.slice();
 
@@ -39,7 +44,7 @@ export class PageController {
       sortedFilmCardElements.push(filmCardElement);
     }
     return sortedFilmCardElements;
-  };
+  }
 
   _showFullInformation(film) {
     const fullFilmInfo = new FilmCardDetails(film).getElement();
@@ -56,25 +61,25 @@ export class PageController {
     commentArea.addEventListener(`blur`, () => {
       document.addEventListener(`keydown`, this._onEscKeyDown);
     });
-  };
+  }
 
   _onEscKeyDown() {
     const detailCardElement = document.querySelector(`.film-details`);
     if (detailCardElement) {
       detailCardElement.remove();
     }
-  };
+  }
 
-  _renderFirstLineWithFilmsAndShowMoreButton(films) {
-    const addNextLineWithFilms= (films) => {
+  _renderFirstLineWithFilmsAndShowMoreButton(filmsContainer) {
+    const addNextLineWithFilms = (filmsContainer) => {
       const filmCardElementsForNextRow = [];
-      const finalIndexFilmElement = (this._startIndexFilmElement + FILMS_COUNT_IN_ROW < films.length) ? this._startIndexFilmElement + FILMS_COUNT_IN_ROW : films.length;
+      const finalIndexFilmElement = (this._startIndexFilmElement + FILMS_COUNT_IN_ROW < filmsContainer.length) ? this._startIndexFilmElement + FILMS_COUNT_IN_ROW : filmsContainer.length;
       for (let i = this._startIndexFilmElement; i < finalIndexFilmElement; i++) {
-        let filmCardElement = new FilmCard(films[i]).getElement();
-        filmCardElement.addEventListener(`click`, () => this._showFullInformation(films[i]));
+        let filmCardElement = new FilmCard(filmsContainer[i]).getElement();
+        filmCardElement.addEventListener(`click`, () => this._showFullInformation(filmsContainer[i]));
         filmCardElementsForNextRow.push(filmCardElement);
       }
-      if (finalIndexFilmElement === films.length) {
+      if (finalIndexFilmElement === filmsContainer.length) {
         this._showMoreBtn.getElement().classList.add(`disabledButton`);
       } else {
         this._startIndexFilmElement += FILMS_COUNT_IN_ROW;
@@ -95,11 +100,11 @@ export class PageController {
       this._startIndexFilmElement += FILMS_COUNT_IN_ROW;
     };
 
-    createFirstLineFilms(films);
+    createFirstLineFilms(filmsContainer);
     this._showMoreBtn.getElement().classList.remove(`disabledButton`);
 
     render(this._wrapper.getElement().querySelector(`.films-list`), this._showMoreBtn.getElement(), `beforeend`);
-    this._showMoreBtn.getElement().addEventListener(`click`, (evt) => addNextLineWithFilms(films));
+    this._showMoreBtn.getElement().addEventListener(`click`, () => addNextLineWithFilms(filmsContainer));
   }
 
   _renderSortedFilms() {
@@ -128,11 +133,6 @@ export class PageController {
       case `default`:
         this._renderFirstLineWithFilmsAndShowMoreButton(this._films);
         break;
-    }
-  }
-  removeElement() {
-    if (this._element) {
-      this._element = null;
     }
   }
 }

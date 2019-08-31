@@ -13,12 +13,6 @@ export class User extends AbstractComponent {
     return this._element;
   }
 
-  removeElement() {
-    if (this._element) {
-      this._element = null;
-    }
-  }
-
   getTemplate(watchedFilms) {
     return `<section class="header__profile profile">
     <p class="profile__rating">${this.getUserStatus(watchedFilms)}</p>

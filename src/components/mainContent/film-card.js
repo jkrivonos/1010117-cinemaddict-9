@@ -19,12 +19,6 @@ export class FilmCard extends AbstractComponent {
     this._country = country;
   }
 
-  removeElement() {
-    if (this._element) {
-      this._element = null;
-    }
-  }
-
   getTemplate() {
     return `<article class="film-card"><h3 class="film-card__title">${this._title}</h3>
           <p class="film-card__rating">${this._rating}</p>

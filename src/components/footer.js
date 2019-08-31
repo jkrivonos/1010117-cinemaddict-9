@@ -12,12 +12,6 @@ export class Footer {
     return this._element;
   }
 
-  removeElement() {
-    if (this._element) {
-      this._element = null;
-    }
-  }
-
   getTemplate(filmsAmount) {
     return `<p>${filmsAmount} movies inside</p>`;
   }
