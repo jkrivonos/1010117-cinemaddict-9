@@ -3,6 +3,7 @@ import {FilmCardDetails} from '../components/mainContent/film-card-details.js';
 import {Wrapper} from '../components/mainContent/films-wrapper';
 import {SortingMenu} from '../components/mainContent/sorting-panel.js';
 import {ShowMoreButton} from '../components/mainContent/show-more-button.js';
+import {FilmDetailsWrapper} from '../components/mainContent/film-details-wrapper.js';
 import {render} from '../utils.js';
 
 const FILMS_COUNT_IN_ROW = 5;
@@ -45,30 +46,32 @@ export class PageController {
     }
     return sortedFilmCardElements;
   }
-  //
-  // _showFullInformation(film) {
-  //   const fullFilmInfo = new FilmCardDetails(film).getElement();
-  //   this._mainPoint.append(fullFilmInfo);
-  //
-  //   const closeFilmCard = fullFilmInfo.querySelector(`.film-details__close-btn`);
-  //   closeFilmCard.addEventListener(`click`, this._onEscKeyDown);
-  //   document.addEventListener(`keydown`, this._onEscKeyDown);
-  //
-  //   const commentArea = fullFilmInfo.querySelector(`textarea`);
-  //   commentArea.addEventListener(`focus`, () => {
-  //     document.removeEventListener(`keydown`, this._onEscKeyDown);
-  //   });
-  //   commentArea.addEventListener(`blur`, () => {
-  //     document.addEventListener(`keydown`, this._onEscKeyDown);
-  //   });
-  // }
-  //
-  // _onEscKeyDown() {
-  //   const detailCardElement = document.querySelector(`.film-details`);
-  //   if (detailCardElement) {
-  //     detailCardElement.remove();
-  //   }
-  // }
+
+  _showFullInformation(film) {
+    const filmDetailsWrap = new FilmDetailsWrapper().getElement();
+    document.body.append(filmDetailsWrap);
+    const fullFilmInfo = new FilmCardDetails(film).getElement();
+    filmDetailsWrap.append(fullFilmInfo);
+
+    const closeFilmCard = fullFilmInfo.querySelector(`.film-details__close-btn`);
+    closeFilmCard.addEventListener(`click`, this._onEscKeyDown);
+    document.addEventListener(`keydown`, this._onEscKeyDown);
+
+    const commentArea = fullFilmInfo.querySelector(`textarea`);
+    commentArea.addEventListener(`focus`, () => {
+      document.removeEventListener(`keydown`, this._onEscKeyDown);
+    });
+    commentArea.addEventListener(`blur`, () => {
+      document.addEventListener(`keydown`, this._onEscKeyDown);
+    });
+  }
+
+  _onEscKeyDown() {
+    const detailCardElement = document.querySelector(`.film-details`);
+    if (detailCardElement) {
+      detailCardElement.remove();
+    }
+  }
 
   _renderFirstLineWithFilmsAndShowMoreButton(filmsContainer) {
     const addNextLineWithFilms = (filmsContainer) => {

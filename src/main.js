@@ -43,7 +43,6 @@ createHeader(films);
 createMenu(films);
 
 
-// const filmsContainer = document.querySelector(`.films-list__container`);
 
 const pageController = new PageController(mainPoint, films);
 pageController.init();
