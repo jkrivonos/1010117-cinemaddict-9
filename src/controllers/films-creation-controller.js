@@ -18,6 +18,10 @@ export class PageController {
     this._showMoreBtn = new ShowMoreButton();
     this._startIndexFilmElement = 0;
     this._filmDetailsWrap = new FilmDetailsWrapper();
+
+    this._subscriptions = [];
+    this._onChangeView = this._onChangeView.bind(this);
+    this._onDataChange = this._onDataChange.bind(this);
   }
 
   init() {
@@ -43,7 +47,7 @@ export class PageController {
     const sortedFilmCardElements = [];
     for (let i = 0; i < SORTED_FILMS_AMOUNT; i++) {
       let filmCardElement = new FilmCard(sortedTopFilms[i]).getElement();
-      const movieController = new MovieController(filmDetailsWrap, films[i]);
+      const movieController = new MovieController(filmDetailsWrap, films[i], this._onDataChange);
       filmCardElement.addEventListener(`click`, () => movieController.init(sortedTopFilms[i]));
       sortedFilmCardElements.push(filmCardElement);
     }
@@ -58,7 +62,7 @@ export class PageController {
       const finalIndexFilmElement = (this._startIndexFilmElement + FILMS_COUNT_IN_ROW < filmsContainer.length) ? this._startIndexFilmElement + FILMS_COUNT_IN_ROW : filmsContainer.length;
       for (let i = this._startIndexFilmElement; i < finalIndexFilmElement; i++) {
         let filmCardElement = new FilmCard(filmsContainer[i]).getElement();
-        const movieController = new MovieController(filmDetailsWrap, filmsContainer[i]);
+        const movieController = new MovieController(filmDetailsWrap, filmsContainer[i], this._onDataChange);
         filmCardElement.addEventListener(`click`, () => movieController.init());
 
         filmCardElementsForNextRow.push(filmCardElement);
@@ -92,6 +96,15 @@ export class PageController {
 
     render(this._wrapper.getElement().querySelector(`.films-list`), this._showMoreBtn.getElement(), `beforeend`);
     this._showMoreBtn.getElement().addEventListener(`click`, () => addNextLineWithFilms(filmsContainer));
+  }
+
+  _onChangeView(){
+    this._subscriptions.forEach((el) => el());
+  }
+
+  _onDataChange(newData, oldData){
+    this._films[this._films.findIndex((el) => el === oldData)] = newData;
+    this._renderFirstLineWithFilmsAndShowMoreButton(this._films);
   }
 
   _renderSortedFilms() {

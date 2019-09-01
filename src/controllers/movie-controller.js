@@ -1,11 +1,14 @@
 import {FilmCardDetails} from '../components/mainContent/film-card-details.js'
+import {FilmCard} from "../components/mainContent/film-card";
 
 export class MovieController {
-
   constructor(container, filmData, onDataChange, onChangeView) {
     this._container = container;
-    /*элемент, в который конструктор будет аппендить карточки. .film-details */
     this._filmData = filmData;
+    this._filmView = new FilmCard(filmData);
+    this._filmCardDetails = new FilmCardDetails(filmData);
+    this._onChangeView = onChangeView;
+    this._onDataChange = onDataChange;
   }
 
   init() {
@@ -14,8 +17,8 @@ export class MovieController {
 
   _showFullInformation() {
     document.body.append(this._container);
-
-    const fullFilmInfo = new FilmCardDetails(this._filmData).getElement();
+    const filmCardDetails = new FilmCardDetails(this._filmData);
+    const fullFilmInfo = filmCardDetails.getElement();
     this._container.append(fullFilmInfo);
     const closeFilmCard = fullFilmInfo.querySelector(`.film-details__close-btn`);
 
@@ -27,19 +30,23 @@ export class MovieController {
       document.removeEventListener(`keydown`, this._onEscKeyDown);
     });
     commentArea.addEventListener(`blur`, () => {
-      const formData = new FormData(new FilmCardDetails(this._filmData).getElement().querySelector(`.film-details__inner`));
+      console.log(this._filmData._element);
+      console.log(filmCardDetails.getElement().querySelector(`.film-details__inner`));
+      const formData = new FormData(filmCardDetails.getElement().querySelector(`.film-details__inner`));
       console.log(`formData`,formData);
       const entry = {
         comments: formData.get(`comment`),
         watchlistFlag: formData.get(`watchlist`),
         emoji: formData.getAll(`comment-emoji`)
       };
-      console.log(`entry`,entry);
+      this._onDataChange(entry, this._filmData);
+      this._onChangeView();
       document.addEventListener(`keydown`, this._onEscKeyDown);
     });
   }
 
   _onEscKeyDown() {
+
     const detailCardElement = document.querySelector(`.film-details`);
     if (detailCardElement) {
       detailCardElement.remove();
