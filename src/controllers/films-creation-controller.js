@@ -62,7 +62,9 @@ export class PageController {
       const finalIndexFilmElement = (this._startIndexFilmElement + FILMS_COUNT_IN_ROW < filmsContainer.length) ? this._startIndexFilmElement + FILMS_COUNT_IN_ROW : filmsContainer.length;
       for (let i = this._startIndexFilmElement; i < finalIndexFilmElement; i++) {
         let filmCardElement = new FilmCard(filmsContainer[i]).getElement();
-        const movieController = new MovieController(filmDetailsWrap, filmsContainer[i], this._onDataChange);
+        console.log(`onDataChange0`, this._onDataChange);
+
+        const movieController = new MovieController(filmDetailsWrap, filmsContainer[i], this._onDataChange, this._onChangeView);
         filmCardElement.addEventListener(`click`, () => movieController.init());
 
         filmCardElementsForNextRow.push(filmCardElement);
@@ -82,7 +84,7 @@ export class PageController {
       const filmCardElementsForFirstRow = [];
       for (let i = this._startIndexFilmElement; i < to; i++) {
         let filmCardElement = new FilmCard(filmsContainer[i]).getElement();
-        const movieController = new MovieController(filmDetailsWrap, filmsContainer[i]);
+        const movieController = new MovieController(filmDetailsWrap, filmsContainer[i], this._onDataChange, this._onChangeView);
 
         filmCardElement.addEventListener(`click`, () => movieController.init());
         filmCardElementsForFirstRow.push(filmCardElement);

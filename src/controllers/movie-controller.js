@@ -30,8 +30,6 @@ export class MovieController {
       document.removeEventListener(`keydown`, this._onEscKeyDown);
     });
     commentArea.addEventListener(`blur`, () => {
-      console.log(this._filmData._element);
-      console.log(filmCardDetails.getElement().querySelector(`.film-details__inner`));
       const formData = new FormData(filmCardDetails.getElement().querySelector(`.film-details__inner`));
       console.log(`formData`,formData);
       const entry = {
