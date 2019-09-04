@@ -40,9 +40,7 @@ export class PageController {
 
   _getSortedFilmCardElements(films, sortingKey) {
     const filmDetailsWrap = this._filmDetailsWrap.getElement();
-
     let copyFilms = films.slice();
-
     const sortedTopFilms = copyFilms.sort((a, b) => b[sortingKey] - a[sortingKey]);
     const sortedFilmCardElements = [];
     for (let i = 0; i < SORTED_FILMS_AMOUNT; i++) {
@@ -55,18 +53,16 @@ export class PageController {
   }
 
   _renderFirstLineWithFilmsAndShowMoreButton(filmsContainer) {
+    this._wrapper.getElement().querySelector(`.films-list__container`).innerHTML = ``;
     const filmDetailsWrap = this._filmDetailsWrap.getElement();
-
     const addNextLineWithFilms = (filmsContainer) => {
       const filmCardElementsForNextRow = [];
       const finalIndexFilmElement = (this._startIndexFilmElement + FILMS_COUNT_IN_ROW < filmsContainer.length) ? this._startIndexFilmElement + FILMS_COUNT_IN_ROW : filmsContainer.length;
       for (let i = this._startIndexFilmElement; i < finalIndexFilmElement; i++) {
         let filmCardElement = new FilmCard(filmsContainer[i]).getElement();
         console.log(`onDataChange0`, this._onDataChange);
-
         const movieController = new MovieController(filmDetailsWrap, filmsContainer[i], this._onDataChange, this._onChangeView);
         filmCardElement.addEventListener(`click`, () => movieController.init());
-
         filmCardElementsForNextRow.push(filmCardElement);
       }
       if (finalIndexFilmElement === filmsContainer.length) {
@@ -78,7 +74,6 @@ export class PageController {
     };
 
     const createFirstLineFilms = (films) => {
-
       this._startIndexFilmElement = 0;
       const to = (this._startIndexFilmElement + FILMS_COUNT_IN_ROW < films.length) ? this._startIndexFilmElement + FILMS_COUNT_IN_ROW : films.length;
       const filmCardElementsForFirstRow = [];

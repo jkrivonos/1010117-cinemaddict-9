@@ -34,7 +34,7 @@ export class FilmCardDetails extends AbstractComponent {
       </div>
       <div class="film-details__info-wrap">
         <div class="film-details__poster">
-          <img class="film-details__poster-img" src=${this._image} alt="">
+          <img class="film-details__poster-img" name="image" src=${this._image} alt="">
 
           <p class="film-details__age">18+</p>
         </div>
@@ -42,51 +42,51 @@ export class FilmCardDetails extends AbstractComponent {
         <div class="film-details__info">
           <div class="film-details__info-head">
             <div class="film-details__title-wrap">
-              <h3 class="film-details__title">${this._title}</h3>
+              <h3 class="film-details__title" name="title">${this._title}</h3>
               <p class="film-details__title-original">Original: ${this._title}</p>
             </div>
 
             <div class="film-details__rating">
-              <p class="film-details__total-rating">${this._rating}</p>
+              <p class="film-details__total-rating" name="rating">${this._rating}</p>
             </div>
           </div>
 
           <table class="film-details__table">
             <tr class="film-details__row">
               <td class="film-details__term">Director</td>
-              <td class="film-details__cell">${this._director}</td>
+              <td class="film-details__cell" name="director">${this._director}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Writers</td>
-              <td class="film-details__cell">${this._writers}</td>
+              <td class="film-details__cell" name="writers">${this._writers}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Actors</td>
-              <td class="film-details__cell">${this._actors}</td>
+              <td class="film-details__cell" name="actors">${this._actors}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Release Date</td>
-              <td class="film-details__cell">${this._releaseDate}</td>
+              <td class="film-details__cell" name="releaseDate">${this._releaseDate}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Runtime</td>
-              <td class="film-details__cell">${this._runtime}</td>
+              <td class="film-details__cell" name="runtime">${this._runtime}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Country</td>
-              <td class="film-details__cell">${this._country}</td>
+              <td class="film-details__cell" name="country">${this._country}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Genres</td>
               <td class="film-details__cell">
-                <span class="film-details__genre">${this._genre}</span>
-                <span class="film-details__genre">${this._genre}</span>
-                <span class="film-details__genre">${this._genre}</span></td>
+                <span class="film-details__genre" name="genre">${this._genre}</span>
+                <span class="film-details__genre" name="genre">${this._genre}</span>
+                <span class="film-details__genre"name="genre" >${this._genre}</span></td>
             </tr>
           </table>
 
-          <p class="film-details__film-description">
-            ${this._description}
+          <p class="film-details__film-description" name="description">
+           ${this._description}
           </p>
         </div>
       </div>
