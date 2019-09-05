@@ -15,31 +15,38 @@ export class MovieController {
     this._showFullInformation();
   }
 
+  _createDataToUpdate(filmCardDetails){
+    const formData = new FormData(filmCardDetails.getElement().querySelector(`.film-details__inner`));
+    const entry = {
+      description: filmCardDetails._description,
+      title: filmCardDetails._title,
+      rating: formData.get(`rating`),
+      genre: formData.getAll(`genre`),
+      image: formData.get(`image`),
+      isWatchedList: formData.get(`watchlist`),
+      isHistory: formData.get(`watched`),
+      isFavorite: formData.get(`favorite`),
+      comments: formData.get(`comment`),
+      emoji: formData.getAll(`comment-emoji`)
+    };
+    console.log(entry);
+    this._onDataChange(entry, this._filmData);
+  }
+
   _showFullInformation() {
     document.body.append(this._container);
     const filmCardDetails = new FilmCardDetails(this._filmData);
     const fullFilmInfo = filmCardDetails.getElement();
     fullFilmInfo.querySelector(`.film-details__control-label--watchlist`).addEventListener(`click`, () => {
-      console.log(`filmCardDetails`, filmCardDetails);
-      const formData = new FormData(filmCardDetails.getElement().querySelector(`.film-details__inner`));
-      console.log(formData);
-      const entry = {
-        description: formData.get(`description`),
-        title: formData.get(`title`),
-        rating: formData.get(`rating`),
-        // year: formData.get(`comment`),
-        // duration: formData.get(`comment`),
-        genre: formData.getAll(`genre`),
-        image: formData.get(`image`),
-        isWatchedList: formData.get(`watchlist`),
-        isHistory: formData.get(`watched`),
-        isFavorite: formData.get(`favorite`),
-        comments: formData.get(`comment`),
-        emoji: formData.getAll(`comment-emoji`)
-      };
-      console.log(`entry0`, entry);
+      this._createDataToUpdate(filmCardDetails);
+    });
 
-      this._onDataChange(entry, this._filmData);
+    fullFilmInfo.querySelector(`.film-details__control-label--watched`).addEventListener(`click`, () => {
+      this._createDataToUpdate(filmCardDetails);
+    });
+
+    fullFilmInfo.querySelector(`.film-details__control-label--favorite`).addEventListener(`click`, () => {
+      this._createDataToUpdate(filmCardDetails);
     });
 
     this._container.append(fullFilmInfo);

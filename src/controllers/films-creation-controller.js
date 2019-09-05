@@ -38,6 +38,25 @@ export class PageController {
     }
   }
 
+
+  _createDataToUpdate(filmCardElement){
+      const formData = new FormData(filmCardElement.querySelector(`.film-card__controls`));
+    const entry = {
+      description: filmCardElement._description,
+      title: filmCardDetails._title,
+      rating: formData.get(`rating`),
+      genre: formData.getAll(`genre`),
+      image: formData.get(`image`),
+      isWatchedList: formData.get(`watchlist`),
+      isHistory: formData.get(`watched`),
+      isFavorite: formData.get(`favorite`),
+      comments: formData.get(`comment`),
+      emoji: formData.getAll(`comment-emoji`)
+    };
+    console.log(entry);
+    this._onDataChange(entry, this._filmData);
+  }
+
   _getSortedFilmCardElements(films, sortingKey) {
     const filmDetailsWrap = this._filmDetailsWrap.getElement();
     let copyFilms = films.slice();
@@ -73,12 +92,19 @@ export class PageController {
       this._wrapper.getElement().querySelector(`.films-list__container`).append(...filmCardElementsForNextRow);
     };
 
+
     const createFirstLineFilms = (films) => {
       this._startIndexFilmElement = 0;
       const to = (this._startIndexFilmElement + FILMS_COUNT_IN_ROW < films.length) ? this._startIndexFilmElement + FILMS_COUNT_IN_ROW : films.length;
       const filmCardElementsForFirstRow = [];
       for (let i = this._startIndexFilmElement; i < to; i++) {
         let filmCardElement = new FilmCard(filmsContainer[i]).getElement();
+        filmCardElement.querySelector(`.film-card__controls-item--add-to-watchlist`).addEventListener(`click`, (evt)=>{
+          evt.preventDefault();
+          console.log(evt);
+          this._createDataToUpdate(filmCardElement);
+
+        });
         const movieController = new MovieController(filmDetailsWrap, filmsContainer[i], this._onDataChange, this._onChangeView);
 
         filmCardElement.addEventListener(`click`, () => movieController.init());
