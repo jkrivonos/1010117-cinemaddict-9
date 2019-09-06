@@ -17,12 +17,13 @@ export class MovieController {
 
   _createDataToUpdate(filmCardDetails){
     const formData = new FormData(filmCardDetails.getElement().querySelector(`.film-details__inner`));
+    console.log(formData.get(`watchlist`));
     const entry = {
       description: filmCardDetails._description,
       title: filmCardDetails._title,
       rating: formData.get(`rating`),
       genre: formData.getAll(`genre`),
-      image: formData.get(`image`),
+      image: filmCardDetails._image,
       isWatchedList: formData.get(`watchlist`),
       isHistory: formData.get(`watched`),
       isFavorite: formData.get(`favorite`),
@@ -37,7 +38,15 @@ export class MovieController {
     document.body.append(this._container);
     const filmCardDetails = new FilmCardDetails(this._filmData);
     const fullFilmInfo = filmCardDetails.getElement();
-    fullFilmInfo.querySelector(`.film-details__control-label--watchlist`).addEventListener(`click`, () => {
+    this._container.append(fullFilmInfo);
+
+    const closeFilmCard = fullFilmInfo.querySelector(`.film-details__close-btn`);
+    closeFilmCard.addEventListener(`click`, this._onEscKeyDown);
+
+// TODO: не могу понять, почему в filmCardDetails в FormDate isWatchedList: null, если я не него уже нажала, а при втором разе уже on..
+
+    fullFilmInfo.querySelector(`.film-details__control-label--watchlist`).addEventListener(`click`, (evt) => {
+      console.log(evt);
       this._createDataToUpdate(filmCardDetails);
     });
 
@@ -48,11 +57,6 @@ export class MovieController {
     fullFilmInfo.querySelector(`.film-details__control-label--favorite`).addEventListener(`click`, () => {
       this._createDataToUpdate(filmCardDetails);
     });
-
-    this._container.append(fullFilmInfo);
-    const closeFilmCard = fullFilmInfo.querySelector(`.film-details__close-btn`);
-
-    closeFilmCard.addEventListener(`click`, this._onEscKeyDown);
     document.addEventListener(`keydown`, this._onEscKeyDown);
 
     const commentArea = fullFilmInfo.querySelector(`textarea`);
@@ -75,7 +79,6 @@ export class MovieController {
   }
 
   _onEscKeyDown() {
-
     const detailCardElement = document.querySelector(`.film-details`);
     if (detailCardElement) {
       detailCardElement.remove();

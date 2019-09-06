@@ -43,7 +43,7 @@ export class PageController {
       const formData = new FormData(filmCardElement.querySelector(`.film-card__controls`));
     const entry = {
       description: filmCardElement._description,
-      title: filmCardDetails._title,
+      title: filmCardElement._title,
       rating: formData.get(`rating`),
       genre: formData.getAll(`genre`),
       image: formData.get(`image`),
@@ -81,7 +81,7 @@ export class PageController {
         let filmCardElement = new FilmCard(filmsContainer[i]).getElement();
         console.log(`onDataChange0`, this._onDataChange);
         const movieController = new MovieController(filmDetailsWrap, filmsContainer[i], this._onDataChange, this._onChangeView);
-        filmCardElement.addEventListener(`click`, () => movieController.init());
+        filmCardElement.querySelector(`.film-card__poster`).addEventListener(`click`, () => movieController.init());
         filmCardElementsForNextRow.push(filmCardElement);
       }
       if (finalIndexFilmElement === filmsContainer.length) {
