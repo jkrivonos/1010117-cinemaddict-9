@@ -43,17 +43,15 @@ export class MovieController {
     const closeFilmCard = fullFilmInfo.querySelector(`.film-details__close-btn`);
     closeFilmCard.addEventListener(`click`, this._onEscKeyDown);
 
-// TODO: не могу понять, почему в filmCardDetails в FormDate isWatchedList: false, если я не него уже нажала, а при втором разе уже true..
-
-    fullFilmInfo.querySelector(`.film-details__control-label--watchlist`).addEventListener(`click`, () => {
+    fullFilmInfo.querySelector(`#watchlist`).addEventListener(`change`, () => {
       this._createDataToUpdate(filmCardDetails);
     });
 
-    fullFilmInfo.querySelector(`.film-details__control-label--watched`).addEventListener(`click`, () => {
+    fullFilmInfo.querySelector(`#watched`).addEventListener(`change`, () => {
       this._createDataToUpdate(filmCardDetails);
     });
 
-    fullFilmInfo.querySelector(`.film-details__control-label--favorite`).addEventListener(`click`, () => {
+    fullFilmInfo.querySelector(`#favorite`).addEventListener(`change`, () => {
       this._createDataToUpdate(filmCardDetails);
     });
     document.addEventListener(`keydown`, this._onEscKeyDown);
