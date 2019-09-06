@@ -95,13 +95,13 @@ export class FilmCardDetails extends AbstractComponent {
       </div>
 
       <section class="film-details__controls">
-        <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist" value = \`${this._isWatchedList}\` checked = \`${this._isWatchedList}\`>
+        <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist" value=\`${this._isWatchedList} ${this._isWatchedList ? "checked" : ""}\`>
         <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
 
-        <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched" value = \`${this._isHistory}\` checked = \`${this._isHistory}\` >
+        <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched" value = \`${this._isHistory} ${this._isHistory ? "checked" : ""}\` >
         <label for="watched" class="film-details__control-label film-details__control-label--watched">Already watched</label>
 
-        <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite" value = \`${this._isFavorite}\` checked = \`${this._isFavorite}\`>
+        <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite" value = \`${this._isFavorite} ${this._isFavorite ? "checked" : ""}\`>
         <label for="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
       </section>
     </div>
@@ -117,7 +117,7 @@ export class FilmCardDetails extends AbstractComponent {
             </span>
             <div>
               <p class="film-details__comment-text">Interesting setting and a good cast</p>
-              <p class="film-details__comment-info">
+              <p class="film-details__comment-info
                 <span class="film-details__comment-author">Tim Macoveev</span>
                 <span class="film-details__comment-day">3 days ago</span>
                 <button class="film-details__comment-delete">Delete</button>
