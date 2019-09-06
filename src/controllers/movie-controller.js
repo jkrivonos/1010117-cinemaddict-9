@@ -17,16 +17,15 @@ export class MovieController {
 
   _createDataToUpdate(filmCardDetails){
     const formData = new FormData(filmCardDetails.getElement().querySelector(`.film-details__inner`));
-    console.log(formData.get(`watchlist`));
     const entry = {
       description: filmCardDetails._description,
       title: filmCardDetails._title,
       rating: formData.get(`rating`),
       genre: formData.getAll(`genre`),
       image: filmCardDetails._image,
-      isWatchedList: formData.get(`watchlist`),
-      isHistory: formData.get(`watched`),
-      isFavorite: formData.get(`favorite`),
+      isWatchedList: !!formData.get(`watchlist`),
+      isHistory: !!formData.get(`watched`),
+      isFavorite: !!formData.get(`favorite`),
       comments: formData.get(`comment`),
       emoji: formData.getAll(`comment-emoji`)
     };
@@ -36,6 +35,7 @@ export class MovieController {
 
   _showFullInformation() {
     document.body.append(this._container);
+    console.log(`this._filmData`, this._filmData);
     const filmCardDetails = new FilmCardDetails(this._filmData);
     const fullFilmInfo = filmCardDetails.getElement();
     this._container.append(fullFilmInfo);
@@ -43,10 +43,9 @@ export class MovieController {
     const closeFilmCard = fullFilmInfo.querySelector(`.film-details__close-btn`);
     closeFilmCard.addEventListener(`click`, this._onEscKeyDown);
 
-// TODO: не могу понять, почему в filmCardDetails в FormDate isWatchedList: null, если я не него уже нажала, а при втором разе уже on..
+// TODO: не могу понять, почему в filmCardDetails в FormDate isWatchedList: false, если я не него уже нажала, а при втором разе уже true..
 
-    fullFilmInfo.querySelector(`.film-details__control-label--watchlist`).addEventListener(`click`, (evt) => {
-      console.log(evt);
+    fullFilmInfo.querySelector(`.film-details__control-label--watchlist`).addEventListener(`click`, () => {
       this._createDataToUpdate(filmCardDetails);
     });
 

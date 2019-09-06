@@ -35,7 +35,10 @@ export const getDataFilm = () => ({
   ][Math.floor(Math.random() * 5)],
   description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget.`,
   comments: getRandomFromRange(0, 155),
-  isWatchedList: Boolean(Math.round(Math.random())),
-  isHistory: Boolean(Math.round(Math.random())),
-  isFavorite: Boolean(Math.round(Math.random()))
+  // isWatchedList: Boolean(Math.round(Math.random())),
+  // isHistory: Boolean(Math.round(Math.random())),
+  // isFavorite: Boolean(Math.round(Math.random()))
+  isWatchedList: false,
+  isHistory: false,
+  isFavorite: false
 });

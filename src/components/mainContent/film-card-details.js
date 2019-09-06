@@ -2,7 +2,7 @@ import {createElement} from '../../utils.js';
 import {AbstractComponent} from "../abstract-component";
 
 export class FilmCardDetails extends AbstractComponent {
-  constructor({image = ``, title = ``, rating = ``, director = ``, writers = ``, actors = ``, releaseDate = ``, runtime = ``, country = ``, genre = ``, description = ``, comments = ``}) {
+  constructor({image = ``, title = ``, rating = ``, director = ``, writers = ``, actors = ``, releaseDate = ``, runtime = ``, country = ``, genre = ``, description = ``, comments = ``, isWatchedList = false, isHistory = false, isFavorite = false }) {
     super();
     this._image = image;
     this._title = title;
@@ -16,6 +16,9 @@ export class FilmCardDetails extends AbstractComponent {
     this._genre = genre;
     this._description = description;
     this._comments = comments;
+    this._isWatchedList = isWatchedList;
+    this._isHistory = isHistory;
+    this._isFavorite = isFavorite;
   }
 
   getElement() {
@@ -92,13 +95,13 @@ export class FilmCardDetails extends AbstractComponent {
       </div>
 
       <section class="film-details__controls">
-        <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist">
+        <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist" value = \`${this._isWatchedList}\`>
         <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
 
-        <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched">
+        <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched" value = \`${this._isHistory}\` >
         <label for="watched" class="film-details__control-label film-details__control-label--watched">Already watched</label>
 
-        <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite">
+        <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite" value = \`${this._isFavorite}\`>
         <label for="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
       </section>
     </div>

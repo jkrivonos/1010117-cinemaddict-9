@@ -53,7 +53,7 @@ export class PageController {
       comments: formData.get(`comment`),
       emoji: formData.getAll(`comment-emoji`)
     };
-    console.log(entry);
+    console.log(`entry`, entry);
     this._onDataChange(entry, this._filmData);
   }
 
@@ -80,6 +80,7 @@ export class PageController {
       for (let i = this._startIndexFilmElement; i < finalIndexFilmElement; i++) {
         let filmCardElement = new FilmCard(filmsContainer[i]).getElement();
         console.log(`onDataChange0`, this._onDataChange);
+
         const movieController = new MovieController(filmDetailsWrap, filmsContainer[i], this._onDataChange, this._onChangeView);
         filmCardElement.querySelector(`.film-card__poster`).addEventListener(`click`, () => movieController.init());
         filmCardElementsForNextRow.push(filmCardElement);
@@ -105,6 +106,7 @@ export class PageController {
           this._createDataToUpdate(filmCardElement);
 
         });
+        // console.log(`filmsContainer[i]`, filmsContainer[i]);
         const movieController = new MovieController(filmDetailsWrap, filmsContainer[i], this._onDataChange, this._onChangeView);
 
         filmCardElement.addEventListener(`click`, () => movieController.init());
