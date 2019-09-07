@@ -1,6 +1,7 @@
 import {FilmCardDetails} from '../components/popupDetails/film-card-details.js'
 import {FilmCard} from "../components/mainContent/film-card";
 import {CommentItem} from "../components/popupDetails/comment-item";
+import {EmojiElement} from "../components/popupDetails/emoji";
 
 export class MovieController {
   constructor(container, filmData, onDataChange, onChangeView) {
@@ -34,43 +35,32 @@ export class MovieController {
     this._onDataChange(entry, this._filmData);
   }
 
-  _renderComments() {
-    // console.log(`this._filmData.comments`, this._filmData.comments);
-    // const commentTree = [];
-    // for (let i = 0; i < this._filmData.comments.length; i++){
-    //   let commentMessage = new CommentItem(this._filmData.comments[i]).getElement();
-    //   console.log(`commentMessage`, commentMessage);
-    //   commentTree.push(commentMessage);
-    //   console.log(`commentTree`, commentTree);
-    //   console.log(`11`, fullFilmInfo.querySelector(`.film-details__comments-list`));
-    //   fullFilmInfo.querySelector(`.film-details__comments-list`).append(...commentTree);
-    // }
-  }
-
-
-  _showFullInformation() {
-    document.body.append(this._container);
-    console.log(`this._filmData`, this._filmData);
-    const filmCardDetails = new FilmCardDetails(this._filmData);
-
-
-    const fullFilmInfo = filmCardDetails.getElement();
-    this._container.append(fullFilmInfo);
-
-    // this._renderComments();
+  _renderComments(fullFilmInfo) {
     const commentTree = [];
     for (let i = 0; i < this._filmData.comments.length; i++){
       let commentMessage = new CommentItem(this._filmData.comments[i]).getElement();
-      console.log(`commentMessage`, commentMessage);
       commentTree.push(commentMessage);
-      console.log(`commentTree`, commentTree);
-      console.log(`11`, fullFilmInfo.querySelector(`.film-details__comments-list`));
       fullFilmInfo.querySelector(`.film-details__comments-list`).append(...commentTree);
     }
+  }
 
+  _renderEmojis(fullFilmInfo){
+    const emojiPanel = [];
+    for (let i = 0; i < this._filmData.emojis.length; i++){
+      let emojiElement = new EmojiElement(this._filmData.emojis[i]).getElement();
+      emojiPanel.push(emojiElement);
+      fullFilmInfo.querySelector(`.film-details__emoji-list`).append(...emojiPanel);
+    }
+  }
 
+  _showFullInformation() {
+    document.body.append(this._container);
+    const filmCardDetails = new FilmCardDetails(this._filmData);
+    const fullFilmInfo = filmCardDetails.getElement();
+    this._container.append(fullFilmInfo);
 
-
+    this._renderComments(fullFilmInfo);
+    this._renderEmojis(fullFilmInfo);
 
     const closeFilmCard = fullFilmInfo.querySelector(`.film-details__close-btn`);
     closeFilmCard.addEventListener(`click`, this._onEscKeyDown);
@@ -100,7 +90,6 @@ export class MovieController {
         description: formData.get(`description`),
         emoji: formData.getAll(`comment-emoji`)
       };
-      console.log(`entry1`, entry);
       this._onDataChange(entry, this._filmData);
       this._onChangeView();
       document.addEventListener(`keydown`, this._onEscKeyDown);

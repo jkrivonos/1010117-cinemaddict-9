@@ -39,7 +39,6 @@ export class PageController {
   }
 
   _createDataPreviewCard(filmCardElement, curFilmData) {
-    console.log(`curFilmData`, curFilmData);
     const formData = new FormData(filmCardElement.querySelector(`.film-card__controls`));
     const entry = {
       description: curFilmData.description,
@@ -52,7 +51,6 @@ export class PageController {
       isFavorite: !!formData.get(`favorite`),
       comments: curFilmData.comments
     };
-    // this.isWatchedList = !this.isWatchedList;
     console.log(`entry`, entry);
     this._onDataChange(entry, curFilmData);
   }
@@ -101,7 +99,6 @@ export class PageController {
       for (let i = this._startIndexFilmElement; i < to; i++) {
         let filmCardElement = new FilmCard(filmsContainer[i]).getElement();
         filmCardElement.querySelector(`.film-card__controls-item--add-to-watchlist`).addEventListener(`click`, () => {
-          console.log(`film-card__controls-item--add-to-watchlist`);
           this._createDataPreviewCard(filmCardElement, filmsContainer[i]);
 
         });

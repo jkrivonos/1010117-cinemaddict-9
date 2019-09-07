@@ -1,9 +1,8 @@
 import {createElement} from '../../utils.js';
 import {AbstractComponent} from "../abstract-component";
-import {CommentItem} from "../popupDetails/comment-item";
 
 export class FilmCardDetails extends AbstractComponent {
-  constructor({image = ``, title = ``, rating = ``, director = ``, writers = ``, actors = ``, releaseDate = ``, runtime = ``, country = ``, genre = ``, description = ``, comments = ``, isWatchedList = false, isHistory = false, isFavorite = false }) {
+  constructor({image = ``, title = ``, rating = ``, director = ``, writers = ``, actors = ``, releaseDate = ``, runtime = ``, country = ``, genre = ``, description = ``, comments = 0, isWatchedList = false, isHistory = false, isFavorite = false }) {
     super();
     this._image = image;
     this._title = title;
@@ -16,7 +15,7 @@ export class FilmCardDetails extends AbstractComponent {
     this._country = country;
     this._genre = genre;
     this._description = description;
-    this._comments = comments;
+    this._comments = comments.length;
     this._isWatchedList = isWatchedList;
     this._isHistory = isHistory;
     this._isFavorite = isFavorite;
@@ -109,7 +108,7 @@ export class FilmCardDetails extends AbstractComponent {
 
     <div class="form-details__bottom-container">
       <section class="film-details__comments-wrap">
-        <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">4</span></h3>
+        <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${this._comments}</span></h3>
 
         <ul class="film-details__comments-list">
         </ul>
@@ -122,25 +121,7 @@ export class FilmCardDetails extends AbstractComponent {
           </label>
 
           <div class="film-details__emoji-list">
-            <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-smile" value="sleeping">
-            <label class="film-details__emoji-label" for="emoji-smile">
-              <img src="./images/emoji/smile.png" width="30" height="30" alt="emoji">
-            </label>
-
-            <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-sleeping" value="neutral-face">
-            <label class="film-details__emoji-label" for="emoji-sleeping">
-              <img src="./images/emoji/sleeping.png" width="30" height="30" alt="emoji">
-            </label>
-
-            <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-gpuke" value="grinning">
-            <label class="film-details__emoji-label" for="emoji-gpuke">
-              <img src="./images/emoji/puke.png" width="30" height="30" alt="emoji">
-            </label>
-
-            <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-angry" value="grinning">
-            <label class="film-details__emoji-label" for="emoji-angry">
-              <img src="./images/emoji/angry.png" width="30" height="30" alt="emoji">
-            </label>
+            
           </div>
         </div>
       </section>

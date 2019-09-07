@@ -49,7 +49,34 @@ export const getDataFilm = () => ({
       author: `Peter Pen`,
       commentText: `3 hours! Seriously??`,
       daysAgo: 1
-    }],
+    }
+    ],
+  emojis:[
+    {
+      id: `emoji-smile`,
+      value: `sleeping`,
+      image: `./images/emoji/smile.png`,
+      checked: false
+    },
+    {
+      id: `emoji-sleeping`,
+      value: `neutral-face`,
+      image: `./images/emoji/sleeping.png`,
+      checked: false
+    },
+    {
+      id: `emoji-gpuke`,
+      value: `grinning`,
+      image: `./images/emoji/puke.png`,
+      checked: false
+    },
+    {
+      id: `emoji-angry`,
+      value: `grinning`,
+      image: `./images/emoji/angry.png`,
+      checked: false
+    }
+  ],
   isWatchedList: true,
   isHistory: false,
   isFavorite: false

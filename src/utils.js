@@ -1,8 +1,7 @@
 export const createElement = (template) => {
-  // console.log(`template`, template);
-  const newElement = document.createElement(`div`);
+  const newElement = document.createElement(`span`);
   newElement.innerHTML = template;
-  return newElement.firstChild;
+  return newElement.childNodes[1] ? newElement : newElement.firstChild;
 };
 
 export const render = (container, element) => {
