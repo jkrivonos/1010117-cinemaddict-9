@@ -1,5 +1,6 @@
-import {FilmCardDetails} from '../components/mainContent/film-card-details.js'
+import {FilmCardDetails} from '../components/popupDetails/film-card-details.js'
 import {FilmCard} from "../components/mainContent/film-card";
+import {CommentItem} from "../components/popupDetails/comment-item";
 
 export class MovieController {
   constructor(container, filmData, onDataChange, onChangeView) {
@@ -26,24 +27,53 @@ export class MovieController {
       isWatchedList: !!formData.get(`watchlist`),
       isHistory: !!formData.get(`watched`),
       isFavorite: !!formData.get(`favorite`),
-      comments: formData.get(`comment`),
+      comments: formData.getAll(`comment`),
       emoji: formData.getAll(`comment-emoji`)
     };
     console.log(entry);
     this._onDataChange(entry, this._filmData);
   }
 
+  _renderComments() {
+    // console.log(`this._filmData.comments`, this._filmData.comments);
+    // const commentTree = [];
+    // for (let i = 0; i < this._filmData.comments.length; i++){
+    //   let commentMessage = new CommentItem(this._filmData.comments[i]).getElement();
+    //   console.log(`commentMessage`, commentMessage);
+    //   commentTree.push(commentMessage);
+    //   console.log(`commentTree`, commentTree);
+    //   console.log(`11`, fullFilmInfo.querySelector(`.film-details__comments-list`));
+    //   fullFilmInfo.querySelector(`.film-details__comments-list`).append(...commentTree);
+    // }
+  }
+
+
   _showFullInformation() {
     document.body.append(this._container);
     console.log(`this._filmData`, this._filmData);
     const filmCardDetails = new FilmCardDetails(this._filmData);
+
+
     const fullFilmInfo = filmCardDetails.getElement();
     this._container.append(fullFilmInfo);
 
+    // this._renderComments();
+    const commentTree = [];
+    for (let i = 0; i < this._filmData.comments.length; i++){
+      let commentMessage = new CommentItem(this._filmData.comments[i]).getElement();
+      console.log(`commentMessage`, commentMessage);
+      commentTree.push(commentMessage);
+      console.log(`commentTree`, commentTree);
+      console.log(`11`, fullFilmInfo.querySelector(`.film-details__comments-list`));
+      fullFilmInfo.querySelector(`.film-details__comments-list`).append(...commentTree);
+    }
+
+
+
+
+
     const closeFilmCard = fullFilmInfo.querySelector(`.film-details__close-btn`);
     closeFilmCard.addEventListener(`click`, this._onEscKeyDown);
-
-// TODO: не могу понять, почему в filmCardDetails в FormDate isWatchedList: false, если я не него уже нажала, а при втором разе уже true..
 
     fullFilmInfo.querySelector(`#watchlist`).addEventListener(`change`, () => {
       this._createDataToUpdate(filmCardDetails);

@@ -34,8 +34,23 @@ export const getDataFilm = () => ({
     `images/posters/the-dance-of-life.jpg`
   ][Math.floor(Math.random() * 5)],
   description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget.`,
-  comments: getRandomFromRange(0, 155),
-  isWatchedList: false,
+  comments: [
+    {
+      author: `Tim Sobakin`,
+      commentText: `film is so boring`,
+      daysAgo: 5
+    },
+    {
+      author: `Kitty Koshkina`,
+      commentText: `it is awesome`,
+      daysAgo: 54
+    },
+    {
+      author: `Peter Pen`,
+      commentText: `3 hours! Seriously??`,
+      daysAgo: 1
+    }],
+  isWatchedList: true,
   isHistory: false,
   isFavorite: false
 });

@@ -4,7 +4,7 @@ import {SortingMenu} from '../components/mainContent/sorting-panel.js';
 import {ShowMoreButton} from '../components/mainContent/show-more-button.js';
 import {render} from '../utils.js';
 import {MovieController} from '../controllers/movie-controller.js';
-import {FilmDetailsWrapper} from '../components/mainContent/film-details-wrapper.js'
+import {FilmDetailsWrapper} from '../components/popupDetails/film-details-wrapper.js'
 
 const FILMS_COUNT_IN_ROW = 5;
 const SORTED_FILMS_AMOUNT = 2;
@@ -38,23 +38,23 @@ export class PageController {
     }
   }
 
-
-  _createDataToUpdate(filmCardElement){
-      const formData = new FormData(filmCardElement.querySelector(`.film-card__controls`));
+  _createDataPreviewCard(filmCardElement, curFilmData) {
+    console.log(`curFilmData`, curFilmData);
+    const formData = new FormData(filmCardElement.querySelector(`.film-card__controls`));
     const entry = {
-      description: filmCardElement._description,
-      title: filmCardElement._title,
-      rating: formData.get(`rating`),
-      genre: formData.getAll(`genre`),
-      image: formData.get(`image`),
-      isWatchedList: formData.get(`watchlist`),
-      isHistory: formData.get(`watched`),
-      isFavorite: formData.get(`favorite`),
-      comments: formData.get(`comment`),
-      emoji: formData.getAll(`comment-emoji`)
+      description: curFilmData.description,
+      title: curFilmData.title,
+      rating: curFilmData.rating,
+      genre: curFilmData.genre,
+      image: curFilmData.image,
+      isWatchedList: !!formData.get(`watchlist`),
+      isHistory: !!formData.get(`watched`),
+      isFavorite: !!formData.get(`favorite`),
+      comments: curFilmData.comments
     };
+    // this.isWatchedList = !this.isWatchedList;
     console.log(`entry`, entry);
-    this._onDataChange(entry, this._filmData);
+    this._onDataChange(entry, curFilmData);
   }
 
   _getSortedFilmCardElements(films, sortingKey) {
@@ -100,16 +100,14 @@ export class PageController {
       const filmCardElementsForFirstRow = [];
       for (let i = this._startIndexFilmElement; i < to; i++) {
         let filmCardElement = new FilmCard(filmsContainer[i]).getElement();
-        filmCardElement.querySelector(`.film-card__controls-item--add-to-watchlist`).addEventListener(`click`, (evt)=>{
-          evt.preventDefault();
-          console.log(evt);
-          this._createDataToUpdate(filmCardElement);
+        filmCardElement.querySelector(`.film-card__controls-item--add-to-watchlist`).addEventListener(`click`, () => {
+          console.log(`film-card__controls-item--add-to-watchlist`);
+          this._createDataPreviewCard(filmCardElement, filmsContainer[i]);
 
         });
-        // console.log(`filmsContainer[i]`, filmsContainer[i]);
         const movieController = new MovieController(filmDetailsWrap, filmsContainer[i], this._onDataChange, this._onChangeView);
 
-        filmCardElement.addEventListener(`click`, () => movieController.init());
+        filmCardElement.querySelector(`.film-card__poster`).addEventListener(`click`, () => movieController.init());
         filmCardElementsForFirstRow.push(filmCardElement);
       }
       this._wrapper.getElement().querySelector(`.films-list__container`).append(...filmCardElementsForFirstRow);
@@ -123,11 +121,11 @@ export class PageController {
     this._showMoreBtn.getElement().addEventListener(`click`, () => addNextLineWithFilms(filmsContainer));
   }
 
-  _onChangeView(){
+  _onChangeView() {
     this._subscriptions.forEach((el) => el());
   }
 
-  _onDataChange(newData, oldData){
+  _onDataChange(newData, oldData) {
     this._films[this._films.findIndex((el) => el === oldData)] = newData;
     this._renderFirstLineWithFilmsAndShowMoreButton(this._films);
   }
