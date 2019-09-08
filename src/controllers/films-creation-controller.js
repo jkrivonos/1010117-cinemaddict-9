@@ -69,21 +69,20 @@ export class PageController {
     return sortedFilmCardElements;
   }
 
-  _renderFirstLineWithFilmsAndShowMoreButton(filmsContainer) {
+  _renderFirstLineWithFilmsAndShowMoreButton(films) {
     this._wrapper.getElement().querySelector(`.films-list__container`).innerHTML = ``;
     const filmDetailsWrap = this._filmDetailsWrap.getElement();
-    const addNextLineWithFilms = (filmsContainer) => {
+    const addNextLineWithFilms = (films) => {
       const filmCardElementsForNextRow = [];
-      const finalIndexFilmElement = (this._startIndexFilmElement + FILMS_COUNT_IN_ROW < filmsContainer.length) ? this._startIndexFilmElement + FILMS_COUNT_IN_ROW : filmsContainer.length;
+      const finalIndexFilmElement = (this._startIndexFilmElement + FILMS_COUNT_IN_ROW < films.length) ? this._startIndexFilmElement + FILMS_COUNT_IN_ROW : filmsContainer.length;
       for (let i = this._startIndexFilmElement; i < finalIndexFilmElement; i++) {
-        let filmCardElement = new FilmCard(filmsContainer[i]).getElement();
+        let filmCardElement = new FilmCard(films[i]).getElement();
         console.log(`onDataChange0`, this._onDataChange);
-
-        const movieController = new MovieController(filmDetailsWrap, filmsContainer[i], this._onDataChange, this._onChangeView);
+        const movieController = new MovieController(filmDetailsWrap, films[i], this._onDataChange, this._onChangeView);
         filmCardElement.querySelector(`.film-card__poster`).addEventListener(`click`, () => movieController.init());
         filmCardElementsForNextRow.push(filmCardElement);
       }
-      if (finalIndexFilmElement === filmsContainer.length) {
+      if (finalIndexFilmElement === films.length) {
         this._showMoreBtn.getElement().classList.add(`disabledButton`);
       } else {
         this._startIndexFilmElement += FILMS_COUNT_IN_ROW;
@@ -91,19 +90,16 @@ export class PageController {
       this._wrapper.getElement().querySelector(`.films-list__container`).append(...filmCardElementsForNextRow);
     };
 
-
     const createFirstLineFilms = (films) => {
       this._startIndexFilmElement = 0;
       const to = (this._startIndexFilmElement + FILMS_COUNT_IN_ROW < films.length) ? this._startIndexFilmElement + FILMS_COUNT_IN_ROW : films.length;
       const filmCardElementsForFirstRow = [];
       for (let i = this._startIndexFilmElement; i < to; i++) {
-        let filmCardElement = new FilmCard(filmsContainer[i]).getElement();
+        let filmCardElement = new FilmCard(films[i]).getElement();
         filmCardElement.querySelector(`.film-card__controls-item--add-to-watchlist`).addEventListener(`click`, () => {
-          this._createDataPreviewCard(filmCardElement, filmsContainer[i]);
-
+          this._createDataPreviewCard(filmCardElement, films[i]);
         });
-        const movieController = new MovieController(filmDetailsWrap, filmsContainer[i], this._onDataChange, this._onChangeView);
-
+        const movieController = new MovieController(filmDetailsWrap, films[i], this._onDataChange, this._onChangeView);
         filmCardElement.querySelector(`.film-card__poster`).addEventListener(`click`, () => movieController.init());
         filmCardElementsForFirstRow.push(filmCardElement);
       }
@@ -111,11 +107,11 @@ export class PageController {
       this._startIndexFilmElement += FILMS_COUNT_IN_ROW;
     };
 
-    createFirstLineFilms(filmsContainer);
+    createFirstLineFilms(films);
     this._showMoreBtn.getElement().classList.remove(`disabledButton`);
 
     render(this._wrapper.getElement().querySelector(`.films-list`), this._showMoreBtn.getElement(), `beforeend`);
-    this._showMoreBtn.getElement().addEventListener(`click`, () => addNextLineWithFilms(filmsContainer));
+    this._showMoreBtn.getElement().addEventListener(`click`, () => addNextLineWithFilms(films));
   }
 
   _onChangeView() {

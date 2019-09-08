@@ -20,10 +20,12 @@ export class MovieController {
   _createDataToUpdate(filmCardDetails){
     const formData = new FormData(filmCardDetails.getElement().querySelector(`.film-details__inner`));
     const entry = {
+      releaseDate: filmCardDetails._releaseDate,
+      runtime: filmCardDetails._runtime,
       description: filmCardDetails._description,
       title: filmCardDetails._title,
-      rating: formData.get(`rating`),
-      genre: formData.getAll(`genre`),
+      rating: filmCardDetails._rating,
+      genre: filmCardDetails._genre,
       image: filmCardDetails._image,
       isWatchedList: !!formData.get(`watchlist`),
       isHistory: !!formData.get(`watched`),
@@ -40,8 +42,8 @@ export class MovieController {
     for (let i = 0; i < this._filmData.comments.length; i++){
       let commentMessage = new CommentItem(this._filmData.comments[i]).getElement();
       commentTree.push(commentMessage);
-      fullFilmInfo.querySelector(`.film-details__comments-list`).append(...commentTree);
     }
+    fullFilmInfo.querySelector(`.film-details__comments-list`).append(...commentTree);
   }
 
   _renderEmojis(fullFilmInfo){
@@ -49,8 +51,8 @@ export class MovieController {
     for (let i = 0; i < this._filmData.emojis.length; i++){
       let emojiElement = new EmojiElement(this._filmData.emojis[i]).getElement();
       emojiPanel.push(emojiElement);
-      fullFilmInfo.querySelector(`.film-details__emoji-list`).append(...emojiPanel);
     }
+    fullFilmInfo.querySelector(`.film-details__emoji-list`).append(...emojiPanel);
   }
 
   _showFullInformation() {

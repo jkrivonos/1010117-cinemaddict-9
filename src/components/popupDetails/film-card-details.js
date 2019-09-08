@@ -83,8 +83,7 @@ export class FilmCardDetails extends AbstractComponent {
               <td class="film-details__term">Genres</td>
               <td class="film-details__cell">
                 <span class="film-details__genre" name="genre">${this._genre}</span>
-                <span class="film-details__genre" name="genre">${this._genre}</span>
-                <span class="film-details__genre"name="genre" >${this._genre}</span></td>
+               </td>
             </tr>
           </table>
 
@@ -95,13 +94,13 @@ export class FilmCardDetails extends AbstractComponent {
       </div>
 
       <section class="film-details__controls">
-        <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist" value=\`${this._isWatchedList} ${this._isWatchedList ? "checked" : ""}\`>
+        <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist" value=${this._isWatchedList}  ${this._isWatchedList ? "checked" : ""}>
         <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
 
-        <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched" value = \`${this._isHistory} ${this._isHistory ? "checked" : ""}\` >
+        <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched" value = ${this._isHistory} ${this._isHistory ? "checked" : ""} >
         <label for="watched" class="film-details__control-label film-details__control-label--watched">Already watched</label>
 
-        <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite" value = \`${this._isFavorite} ${this._isFavorite ? "checked" : ""}\`>
+        <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite" value = ${this._isFavorite} ${this._isFavorite ? "checked" : ""}>
         <label for="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
       </section>
     </div>

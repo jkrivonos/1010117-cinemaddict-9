@@ -18,8 +18,8 @@ export const getDataFilm = () => ({
     `Army of Darkness`
   ][Math.floor(Math.random() * 15)],
   rating: getRandomFromRange(1, 9) + 0.2,
-  year: getRandomFromRange(1900, 2019),
-  duration: getRandomFromRange(25, 180),
+  releaseDate: getRandomFromRange(1900, 2019),
+  runtime: getRandomFromRange(25, 180),
   genre: [`drama`,
     `melodrama`,
     `horror`,
@@ -56,7 +56,7 @@ export const getDataFilm = () => ({
       id: `emoji-smile`,
       value: `sleeping`,
       image: `./images/emoji/smile.png`,
-      checked: false
+      checked: true
     },
     {
       id: `emoji-sleeping`,
@@ -77,7 +77,7 @@ export const getDataFilm = () => ({
       checked: false
     }
   ],
-  isWatchedList: true,
-  isHistory: false,
-  isFavorite: false
+  isWatchedList: Boolean(Math.round(Math.random())),
+  isHistory: Boolean(Math.round(Math.random())),
+  isFavorite: Boolean(Math.round(Math.random()))
 });
